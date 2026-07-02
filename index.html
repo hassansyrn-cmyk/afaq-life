@@ -3,42 +3,48 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-<meta name="theme-color" content="#1F5E3B" />
+<meta name="theme-color" content="#4A6760" />
 <title>آفاق | تطوير الحياة</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800&family=Tajawal:wght@400;500;700&family=Amiri:ital@0;1&display=swap" rel="stylesheet">
 <style>
-  /* ===== الألوان الفخمة المستوحاة من هويتك ===== */
   :root{
-    --primary: #1F5E3B; /* أخضر زمردي داكن */
-    --primary-light: #2D7A4F;
-    --bg: #F5F7F5; /* خلفية فاتحة ناعمة */
-    --accent: #C9A227; /* ذهبي فخم */
-    --accent-soft: #F0E8CE;
-    --surface: #FFFFFF;
-    --text-secondary: #6D7B75;
-    --text-primary: #181A19;
-    --border: #E2E8E4;
-    --danger: #B3564B;
-    --radius-lg: 24px;
-    --radius-md: 16px;
-    --radius-sm: 10px;
-    --shadow: 0 12px 35px -10px rgba(31, 94, 59, 0.15);
+    --primary:#4A6760;
+    --primary-light:#6C8981;
+    --primary-dark:#324841;
+    --bg:#F8F5ED;
+    --accent:#D4A373;
+    --accent-light:#E7C39B;
+    --accent-soft:#EAD9C3;
+    --surface:#FFFFFF;
+    --text-secondary:#6D7B75;
+    --text-primary:#26342F;
+    --border:#E7E1D2;
+    --danger:#B3564B;
+    --gold-grad: linear-gradient(135deg, #D4A373, #C08A52);
+    --primary-grad: linear-gradient(135deg, #4A6760, #33473F);
+    --radius-lg:26px;
+    --radius-md:18px;
+    --radius-sm:12px;
+    --shadow: 0 14px 34px -14px rgba(38,52,47,0.22);
+    --shadow-soft: 0 8px 20px -10px rgba(38,52,47,0.15);
   }
   [data-theme="dark"]{
-    --primary: #C9A227; /* الذهبي يصبح الأساسي في الداكن */
-    --primary-light: #DAB957;
-    --bg: #121413;
-    --accent: #1F5E3B;
-    --accent-soft: #26332B;
-    --surface: #1B1E1C;
-    --text-secondary: #9AA6A1;
-    --text-primary: #F5F7F5;
-    --border: #2A302D;
-    --shadow: 0 12px 35px -10px rgba(0,0,0,0.6);
+    --primary:#9BC2B7;
+    --primary-light:#7FA79B;
+    --primary-dark:#C7E2D9;
+    --bg:#141B18;
+    --accent:#D9AE83;
+    --accent-light:#E8C79E;
+    --accent-soft:#332A1F;
+    --surface:#1E2622;
+    --text-secondary:#A9B5AF;
+    --text-primary:#F3F1E9;
+    --border:#2C3733;
+    --shadow: 0 14px 34px -14px rgba(0,0,0,0.55);
+    --shadow-soft: 0 8px 20px -10px rgba(0,0,0,0.4);
   }
-  
   *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
   html,body{margin:0;padding:0;height:100%;}
   body{
@@ -46,9 +52,19 @@
     background:var(--bg);
     color:var(--text-primary);
     overflow-x:hidden;
-    transition:background .4s ease, color .4s ease;
+    transition:background .35s ease, color .35s ease;
   }
   h1,h2,h3,.display{ font-family:'Cairo', sans-serif; }
+  .serif{ font-family:'Amiri', serif; }
+
+  .blob{ position:fixed; border-radius:50%; filter:blur(60px); z-index:0; opacity:.35; pointer-events:none; }
+  .blob-1{ width:260px; height:260px; background:var(--accent); top:-90px; right:-70px; }
+  .blob-2{ width:220px; height:220px; background:var(--primary); bottom:60px; left:-90px; opacity:.25; }
+  @media (prefers-reduced-motion: no-preference){
+    .blob{ animation: floaty 9s ease-in-out infinite alternate; }
+    .blob-2{ animation-duration:11s; }
+  }
+  @keyframes floaty{ from{ transform:translateY(0) scale(1);} to{ transform:translateY(18px) scale(1.05);} }
 
   #app{
     max-width:480px;
@@ -57,453 +73,624 @@
     display:flex;
     flex-direction:column;
     position:relative;
-    background:var(--bg);
-    box-shadow: 0 0 40px rgba(0,0,0,0.05);
+    background:transparent;
+    z-index:1;
   }
 
   /* ===== Header ===== */
   .topbar{
-    display:flex; align-items:center; justify-content:space-between;
-    padding:20px 20px 10px; position:sticky; top:0;
-    background: rgba(245, 247, 245, 0.85);
-    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:18px 20px 8px;
+    position:sticky;
+    top:0;
+    background:var(--bg);
     z-index:30;
   }
-  [data-theme="dark"] .topbar { background: rgba(18, 20, 19, 0.85); }
-  
   .topbar .back-btn{
-    width:40px;height:40px;border-radius:50%;
-    background:var(--surface); border:1px solid var(--border);
+    width:38px;height:38px;border-radius:50%;
+    background:var(--surface);
+    border:1px solid var(--border);
     display:flex;align-items:center;justify-content:center;
-    cursor:pointer; box-shadow:var(--shadow); transition: transform 0.2s;
+    cursor:pointer;
+    box-shadow:var(--shadow-soft);
   }
-  .topbar .back-btn:active{ transform:scale(0.9); }
-  .topbar .back-btn svg{width:20px;height:20px;stroke:var(--text-primary);}
-  .topbar .title{font-size:19px;font-weight:800;flex:1;text-align:center;}
-  .topbar .spacer{width:40px;}
+  .topbar .back-btn svg{width:18px;height:18px;stroke:var(--text-primary);}
+  .topbar .title{font-size:18px;font-weight:800;flex:1;text-align:center;}
+  .topbar .spacer{width:38px;}
 
   /* ===== Screens ===== */
-  .screen{
-    display:none; padding:10px 20px 110px; flex:1;
-    animation: fadeSlideUp .4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  }
+  .screen{ display:none; padding:8px 20px 118px; flex:1; animation: fadeIn .35s ease; }
   .screen.active{display:block;}
-  @keyframes fadeSlideUp{ from{opacity:0; transform:translateY(15px);} to{opacity:1; transform:translateY(0);} }
+  @keyframes fadeIn{ from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:translateY(0);} }
 
-  .hero-title{font-size:28px; font-weight:800; margin:0 0 8px; line-height:1.3; color:var(--primary);}
-  [data-theme="dark"] .hero-title { color: var(--primary); }
-  .hero-sub{color:var(--text-secondary); font-size:15px; margin:0 0 24px;}
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:6px;
+    color:var(--accent); font-size:12px; font-weight:700; margin:0 0 8px; letter-spacing:.3px;
+  }
+  .eyebrow::before{ content:''; width:16px; height:2px; background:var(--gold-grad); border-radius:2px; }
+  .hero-title{
+    font-size:27px; font-weight:800; margin:0 0 6px; line-height:1.35;
+    background:linear-gradient(90deg, var(--text-primary), var(--primary));
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .hero-sub{color:var(--text-secondary); font-size:15px; margin:0 0 22px;}
 
   /* ===== Card ===== */
   .card{
-    background:var(--surface); border:1px solid var(--border);
-    border-radius:var(--radius-lg); padding:24px; margin-bottom:18px;
-    box-shadow:var(--shadow); transition: transform 0.2s;
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:var(--radius-lg);
+    padding:22px;
+    margin-bottom:16px;
+    box-shadow:var(--shadow);
+    position:relative;
+    overflow:hidden;
   }
-  .card h3{font-size:18px; margin:0 0 12px; color:var(--primary);}
-  .card p{font-size:15px; line-height:1.7; margin:0; color:var(--text-primary);}
+  .card::before{
+    content:''; position:absolute; top:0; right:0; left:0; height:3px;
+    background:var(--gold-grad); opacity:.0; transition:opacity .2s;
+  }
+  .card.accented::before{ opacity:1; }
+  .card h3{font-size:16px; margin:0 0 10px;}
+  .card p{font-size:15px; line-height:1.75; margin:0; color:var(--text-primary);}
   .muted{color:var(--text-secondary); font-size:13px;}
+
+  .hero-panel{
+    background:var(--primary-grad);
+    border-radius:var(--radius-lg);
+    padding:26px 22px;
+    color:#fff;
+    margin-bottom:18px;
+    position:relative;
+    overflow:hidden;
+    box-shadow:0 18px 40px -16px rgba(50,72,63,0.55);
+  }
+  .hero-panel::after{
+    content:''; position:absolute; width:140px; height:140px; border-radius:50%;
+    background:rgba(255,255,255,0.08); top:-50px; left:-40px;
+  }
+  .hero-panel .eyebrow{ color:var(--accent-light); }
+  .hero-panel .hero-title{ background:none; -webkit-text-fill-color:#fff; color:#fff; }
+  .hero-panel .hero-sub{ color:rgba(255,255,255,0.78); }
 
   /* ===== Buttons ===== */
   .btn{
     display:inline-flex; align-items:center; justify-content:center; gap:8px;
-    font-family:'Tajawal', sans-serif; font-weight:700; font-size:15px;
-    padding:16px 24px; border-radius:999px; border:none; cursor:pointer;
-    transition:all .2s ease; -webkit-user-select:none; user-select:none;
+    font-family:'Tajawal', sans-serif; font-weight:700; font-size:14px;
+    padding:14px 22px; border-radius:999px; border:none; cursor:pointer;
+    transition:transform .15s ease, opacity .15s ease, box-shadow .15s ease;
+    -webkit-user-select:none; user-select:none;
   }
-  .btn:active{ transform:scale(0.95); }
-  .btn-primary{ background:var(--primary); color:#fff; box-shadow:0 8px 25px -8px var(--primary); }
-  .btn-outline{ background:transparent; color:var(--primary); border:2px solid var(--primary); }
+  .btn:active{ transform:scale(0.96); }
+  .btn-primary{ background:var(--primary-grad); color:#fff; box-shadow:0 10px 22px -8px rgba(74,103,96,0.55); }
+  .btn-gold{ background:var(--gold-grad); color:#3A2A16; box-shadow:0 10px 22px -8px rgba(212,163,115,0.55); }
+  .btn-outline{ background:transparent; color:var(--primary); border:1.5px solid var(--primary); }
+  .btn-chip{ background:var(--bg); color:var(--text-secondary); border:1px solid var(--border); padding:9px 16px; font-size:13px; }
+  .btn-chip.active{ background:var(--primary); color:#fff; border-color:var(--primary); }
+  .btn-sm{ padding:9px 14px; font-size:12px; }
+  .btn:disabled{ opacity:.45; cursor:not-allowed; }
   .btn-block{ width:100%; }
-  .btn-row{ display:flex; gap:12px; flex-wrap:wrap; margin-bottom:16px; }
+  .btn-row{ display:flex; gap:10px; flex-wrap:wrap; margin-bottom:16px; }
   .btn-row .btn{ flex:1; }
+  .chip-row{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px; }
 
-  /* ===== Quick actions grid ===== */
-  .quick-grid{ display:flex; gap:16px; margin-bottom:20px; }
-  .quick-card{ flex:1; text-align:center; cursor:pointer; padding:20px 10px; }
+  /* ===== Quick actions grid (home) ===== */
+  .quick-grid{ display:flex; gap:12px; margin-bottom:16px; }
+  .quick-card{ flex:1; text-align:center; cursor:pointer; padding:16px 10px; }
   .quick-icon{
-    width:60px;height:60px;border-radius:50%;
-    background:var(--accent-soft); display:flex;align-items:center;justify-content:center;
-    margin:0 auto 12px; font-size:28px; color:var(--primary);
+    width:50px;height:50px;border-radius:16px;
+    background:var(--accent-soft);
+    display:flex;align-items:center;justify-content:center;
+    margin:0 auto 10px; font-size:22px;
   }
 
   /* ===== Progress bar ===== */
-  .progress-track{ height:12px; border-radius:999px; background:var(--border); overflow:hidden; margin-top:10px;}
-  .progress-fill{ height:100%; background:linear-gradient(90deg, var(--accent), var(--primary)); border-radius:999px; transition:width 1s cubic-bezier(0.16, 1, 0.3, 1); }
+  .progress-track{ height:10px; border-radius:6px; background:var(--border); overflow:hidden; margin-top:10px;}
+  .progress-fill{ height:100%; background:var(--gold-grad); border-radius:6px; transition:width .5s ease; }
 
   /* ===== Tip flip card ===== */
   .flip-card{
-    min-height:240px; display:flex; align-items:center; justify-content:center; flex-direction:column;
+    min-height:210px; display:flex; align-items:center; justify-content:center; flex-direction:column;
     text-align:center; cursor:pointer;
-    background:linear-gradient(135deg, var(--primary), var(--primary-light));
-    color: #fff; border:none;
+    background:linear-gradient(160deg, var(--surface), var(--accent-soft));
   }
-  [data-theme="dark"] .flip-card { background:linear-gradient(135deg, var(--surface), #2A2A2A); color:var(--primary); border:1px solid var(--border); }
-  .flip-card p { color: inherit; }
-  .flip-icon{ font-size:40px; margin-bottom:16px; }
+  .flip-icon{ font-size:32px; margin-bottom:14px; }
+  .flip-text{ font-size:19px; line-height:1.9; }
 
   /* ===== Mood grid ===== */
-  .mood-grid{ display:flex; flex-wrap:wrap; gap:12px; }
-  .mood-item{
-    width:calc(33.333% - 8px); aspect-ratio:1;
-    border-radius:var(--radius-md); border:1px solid var(--border);
-    background:var(--surface); display:flex; flex-direction:column; align-items:center; justify-content:center;
-    cursor:pointer; gap:8px; transition:all .2s ease;
+  .mood-grid, .tile-grid{ display:flex; flex-wrap:wrap; gap:10px; }
+  .mood-item, .tile{
+    width:calc(33.333% - 7px); aspect-ratio:1; border-radius:var(--radius-md);
+    border:1px solid var(--border); background:var(--surface);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    cursor:pointer; gap:6px; transition:background .2s ease, color .2s ease, transform .15s ease;
   }
-  .mood-item:active{ transform:scale(0.92); }
-  .mood-item.selected{ background:var(--primary); color:#fff; border-color:var(--primary); box-shadow:0 8px 20px -8px var(--primary);}
-  .mood-item.selected .emoji { transform: scale(1.2); }
-  .mood-item .emoji{ font-size:30px; transition: transform 0.2s; }
+  .mood-item:active, .tile:active{ transform:scale(0.95); }
+  .mood-item.selected, .tile.selected{ background:var(--primary-grad); color:#fff; border-color:var(--primary); }
+  .mood-item .emoji, .tile .emoji{ font-size:24px; }
+  .mood-item span, .tile span{ font-size:12px; text-align:center; }
 
   /* ===== Breathing ===== */
-  .breathe-wrap{ display:flex; flex-direction:column; align-items:center; margin-top:30px; }
+  .breathe-wrap{ display:flex; flex-direction:column; align-items:center; margin-top:16px; }
   .breathe-ring-outer{
-    width:260px; height:260px; border-radius:50%;
+    width:240px; height:240px; border-radius:50%;
     display:flex; align-items:center; justify-content:center;
     background: radial-gradient(circle at center, var(--accent-soft) 0%, transparent 70%);
   }
   .breathe-circle{
-    width:150px; height:150px; border-radius:50%;
-    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    width:140px; height:140px; border-radius:50%;
+    background: var(--primary-grad);
     display:flex; align-items:center; justify-content:center;
-    color:#fff; font-size:22px; font-weight:800;
-    box-shadow:0 20px 50px -10px var(--primary);
-    transition: width 4s ease-in-out, height 4s ease-in-out, background 4s ease;
+    color:#fff; font-size:18px; font-weight:700;
+    box-shadow:0 20px 45px -15px rgba(74,103,96,0.6);
+    transition: width 4s ease-in-out, height 4s ease-in-out;
   }
-  .breathe-circle.grow{ width:240px; height:240px; background: linear-gradient(135deg, var(--accent), #E5C354); }
-  .breathe-wrap .btn{ margin-top:40px; min-width:220px; }
+  .breathe-circle.grow{ width:220px; height:220px; }
+  .breathe-wrap .btn{ margin-top:26px; min-width:200px; }
 
   /* ===== Tools list ===== */
-  .tool-row{
-    display:flex; align-items:center; gap:16px;
-    background:var(--surface); border:1px solid var(--border);
-    border-radius:var(--radius-lg); padding:18px 20px; margin-bottom:14px;
-    cursor:pointer; box-shadow:var(--shadow); transition: transform 0.2s;
+  .section-heading{
+    display:flex; align-items:center; gap:8px; margin:22px 0 10px;
+    font-size:13px; font-weight:800; color:var(--text-secondary);
   }
-  .tool-row:active{ transform:scale(0.97); }
+  .section-heading:first-of-type{ margin-top:4px; }
+  .section-heading::after{ content:''; flex:1; height:1px; background:var(--border); }
+  .tool-row{
+    display:flex; align-items:center; gap:14px;
+    background:var(--surface); border:1px solid var(--border);
+    border-radius:var(--radius-lg); padding:15px 18px; margin-bottom:10px;
+    cursor:pointer; box-shadow:var(--shadow-soft); transition:transform .15s ease;
+  }
+  .tool-row:active{ transform:scale(0.98); }
   .tool-row .tool-icon{
-    width:50px;height:50px;border-radius:14px;
-    background:var(--accent-soft); display:flex;align-items:center;justify-content:center;font-size:24px;
+    width:44px;height:44px;border-radius:14px;
+    background:var(--accent-soft); display:flex;align-items:center;justify-content:center;font-size:19px;
     flex-shrink:0;
   }
   .tool-row .tool-text{ flex:1; }
-  .tool-row .tool-text h4{ margin:0 0 4px; font-size:16px; font-weight:800; color:var(--text-primary); }
-  .tool-row .tool-text span{ font-size:13px; color:var(--text-secondary); }
-  
-  /* ===== Pomodoro Timer ===== */
-  .timer-display { font-size: 60px; font-weight: 800; text-align: center; margin: 20px 0; color: var(--primary); font-family: 'Cairo', sans-serif;}
-  .timer-status { text-align: center; color: var(--accent); font-weight: 700; font-size: 18px; margin-bottom: 20px;}
-  
-  /* ===== Life Wheel ===== */
-  .wheel-slider-group { margin-bottom: 20px; }
-  .wheel-slider-group label { display: flex; justify-content: space-between; margin-bottom: 8px; font-weight: 700; }
-  input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; }
-  input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 24px; width: 24px; border-radius: 50%; background: var(--primary); cursor: pointer; margin-top: -8px; box-shadow: 0 2px 6px rgba(0,0,0,0.2); }
-  input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 8px; cursor: pointer; background: var(--border); border-radius: 4px; }
-  .wheel-bar-container { display: flex; align-items: flex-end; justify-content: space-between; height: 150px; padding: 20px 10px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); margin-top: 20px;}
-  .wheel-bar-col { display: flex; flex-direction: column; align-items: center; width: 18%; height: 100%; justify-content: flex-end; }
-  .wheel-bar { width: 100%; background: var(--primary); border-radius: 6px 6px 0 0; transition: height 0.5s; }
-  .wheel-label { font-size: 10px; text-align: center; margin-top: 8px; font-weight: 700; color: var(--text-secondary); }
+  .tool-row .tool-text h4{ margin:0 0 2px; font-size:15px; }
+  .tool-row .tool-text span{ font-size:12px; color:var(--text-secondary); }
+  .tool-row .chev{ color:var(--text-secondary); }
 
   /* ===== Inputs ===== */
-  textarea{
-    width:100%; min-height:120px; font-family:'Tajawal', sans-serif; font-size:16px;
-    border:2px solid var(--border); border-radius:var(--radius-md); padding:16px;
-    background:var(--bg); color:var(--text-primary); resize:vertical; transition: border 0.3s;
+  textarea, input[type=text]{
+    width:100%; font-family:'Tajawal', sans-serif; font-size:15px;
+    border:1px solid var(--border); border-radius:var(--radius-sm);
+    padding:14px; background:var(--bg); color:var(--text-primary);
   }
-  textarea:focus{ outline:none; border-color:var(--primary); }
+  textarea{ min-height:110px; resize:vertical; }
+  textarea:focus, input[type=text]:focus{ outline:2px solid var(--primary); outline-offset:1px; }
 
-  .entry-item{
-    border:1px solid var(--border); border-radius:var(--radius-md);
-    padding:16px; margin-bottom:12px; background:var(--surface); box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+  .entry-item{ border:1px solid var(--border); border-radius:var(--radius-sm); padding:12px 14px; margin-bottom:8px; background:var(--surface); }
+  .entry-item .date{ font-size:11px; color:var(--text-secondary); margin-bottom:4px; }
+
+  .ad-placeholder{
+    height:58px; border:1.5px dashed var(--border); border-radius:var(--radius-sm);
+    display:flex; align-items:center; justify-content:center;
+    color:var(--text-secondary); font-size:12px; margin:14px 0;
   }
-  .entry-item .date{ font-size:12px; color:var(--accent); margin-bottom:8px; font-weight: 700;}
 
   /* ===== Settings ===== */
   .settings-row{ display:flex; align-items:center; justify-content:space-between; }
-  .switch{ position:relative; width:54px; height:30px; }
+  .switch{ position:relative; width:50px; height:28px; }
   .switch input{ display:none; }
-  .switch .track{ position:absolute; inset:0; background:var(--border); border-radius:999px; transition:.3s; }
-  .switch .thumb{ position:absolute; top:3px; right:3px; width:24px; height:24px; border-radius:50%; background:#fff; transition:.3s; box-shadow:0 2px 5px rgba(0,0,0,0.2); }
+  .switch .track{ position:absolute; inset:0; background:var(--border); border-radius:999px; transition:.25s; }
+  .switch .thumb{ position:absolute; top:3px; right:3px; width:22px; height:22px; border-radius:50%; background:#fff; transition:.25s; box-shadow:0 2px 4px rgba(0,0,0,0.2); }
   .switch input:checked + .track{ background:var(--primary); }
-  .switch input:checked + .track + .thumb{ transform:translateX(-24px); }
+  .switch input:checked + .track + .thumb{ transform:translateX(-22px); }
 
   /* ===== Bottom nav ===== */
   .bottom-nav{
-    position:fixed; bottom:0; left:50%; transform:translateX(-50%); width:100%; max-width:480px;
-    background:rgba(255,255,255,0.9); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
-    border-top:1px solid var(--border); display:flex;
-    padding:10px 10px calc(10px + env(safe-area-inset-bottom)); z-index:40;
+    position:fixed; bottom:0; left:50%; transform:translateX(-50%);
+    width:100%; max-width:480px; background:var(--surface); border-top:1px solid var(--border);
+    display:flex; padding:8px 10px calc(8px + env(safe-area-inset-bottom)); z-index:40;
   }
-  [data-theme="dark"] .bottom-nav { background:rgba(27, 30, 28, 0.9); }
   .nav-btn{
-    flex:1; display:flex; flex-direction:column; align-items:center; gap:6px;
-    padding:8px 0; cursor:pointer; color:var(--text-secondary);
-    font-size:12px; font-weight:800; background:none; border:none; font-family:'Tajawal',sans-serif;
-    transition: color 0.2s;
+    flex:1; display:flex; flex-direction:column; align-items:center; gap:4px; padding:8px 0;
+    cursor:pointer; color:var(--text-secondary); font-size:11px; font-weight:700;
+    background:none; border:none; font-family:'Tajawal',sans-serif;
   }
   .nav-btn.active{ color:var(--primary); }
-  .nav-btn svg{ width:24px; height:24px; transition: transform 0.2s; }
-  .nav-btn.active svg { transform: translateY(-3px); }
+  .nav-btn svg{ width:22px; height:22px; }
 
-  /* toast */
   .toast{
-    position:fixed; bottom:120px; left:50%; transform:translateX(-50%) translateY(20px);
-    background:var(--primary); color:#fff;
-    padding:14px 24px; border-radius:999px; font-size:14px; font-weight:700;
-    opacity:0; transition:.4s cubic-bezier(0.16, 1, 0.3, 1); z-index:100; pointer-events:none;
-    box-shadow: 0 10px 30px rgba(31,94,59,0.3); width: max-content; max-width:90%; text-align:center;
+    position:fixed; bottom:100px; left:50%; transform:translateX(-50%) translateY(20px);
+    background:var(--text-primary); color:var(--bg); padding:12px 22px; border-radius:999px;
+    font-size:13px; font-weight:700; opacity:0; transition:.3s ease; z-index:100; pointer-events:none;
+    max-width:85%; text-align:center;
   }
   .toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
+
+  /* ===== Slider (wheel of life) ===== */
+  .slider-row{ margin-bottom:16px; }
+  .slider-row .slider-label{ display:flex; justify-content:space-between; font-size:13px; margin-bottom:6px; }
+  .slider-row .slider-label b{ color:var(--accent); }
+  input[type=range]{
+    -webkit-appearance:none; width:100%; height:6px; border-radius:4px; background:var(--border); outline:none;
+  }
+  input[type=range]::-webkit-slider-thumb{
+    -webkit-appearance:none; width:20px; height:20px; border-radius:50%;
+    background:var(--gold-grad); box-shadow:0 4px 10px rgba(0,0,0,0.25); cursor:pointer; border:2px solid var(--surface);
+  }
+  .radar-wrap{ display:flex; justify-content:center; margin-bottom:6px; }
+
+  /* ===== Eisenhower matrix ===== */
+  .matrix-add{ margin-bottom:14px; }
+  .quadrant-grid{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .quadrant-box{
+    background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-md);
+    padding:12px; min-height:120px; border-top:4px solid var(--primary);
+  }
+  .quadrant-box.q-important{ border-top-color:var(--primary); }
+  .quadrant-box.q-schedule{ border-top-color:var(--accent); }
+  .quadrant-box.q-delegate{ border-top-color:#8B9A94; }
+  .quadrant-box.q-eliminate{ border-top-color:var(--danger); }
+  .quadrant-box h4{ margin:0 0 8px; font-size:12.5px; }
+  .quadrant-box .q-item{
+    display:flex; align-items:center; gap:6px; font-size:12.5px; background:var(--bg);
+    border-radius:8px; padding:7px 8px; margin-bottom:6px;
+  }
+  .quadrant-box .q-item span{ flex:1; }
+  .quadrant-box .q-item.done span{ text-decoration:line-through; opacity:.5; }
+  .q-item button{ background:none; border:none; color:var(--text-secondary); cursor:pointer; font-size:13px; padding:2px; }
+
+  /* ===== Water tracker ===== */
+  .water-grid{ display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin:20px 0; }
+  .water-cup{
+    width:44px; height:52px; border-radius:8px 8px 16px 16px; border:2px solid var(--primary);
+    display:flex; align-items:flex-end; justify-content:center; cursor:pointer; overflow:hidden; background:var(--surface);
+  }
+  .water-cup .fill{ width:100%; height:0%; background:linear-gradient(180deg, #8FC1D9, #4A93B5); transition:height .3s ease; }
+  .water-cup.filled .fill{ height:100%; }
+
+  /* ===== Pomodoro ring ===== */
+  .ring-wrap{ display:flex; justify-content:center; margin:14px 0 6px; }
+  .ring-outer{
+    width:220px; height:220px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    background: conic-gradient(var(--accent) calc(var(--deg,0) * 1deg), var(--border) 0deg);
+    transition: background .3s linear;
+  }
+  .ring-inner{
+    width:180px; height:180px; border-radius:50%; background:var(--surface);
+    display:flex; flex-direction:column; align-items:center; justify-content:center; box-shadow:var(--shadow-soft);
+  }
+  .ring-inner .time{ font-size:32px; font-weight:800; font-family:'Cairo', sans-serif; }
+  .ring-inner .mode{ font-size:12px; color:var(--text-secondary); margin-top:4px; }
+
+  /* ===== Weekly habit board ===== */
+  .habit-board-row{ display:flex; align-items:center; gap:10px; margin-bottom:12px; }
+  .habit-board-row .hb-label{ width:100px; flex-shrink:0; font-size:13px; display:flex; align-items:center; gap:6px; }
+  .hb-days{ display:flex; gap:5px; flex:1; }
+  .hb-day{
+    flex:1; aspect-ratio:1; border-radius:9px; border:1px solid var(--border);
+    display:flex; align-items:center; justify-content:center; font-size:11px; color:var(--text-secondary);
+    background:var(--surface);
+  }
+  .hb-day.done{ background:var(--primary-grad); color:#fff; border-color:var(--primary); }
+  .hb-day.today{ border:2px solid var(--accent); cursor:pointer; font-weight:800; }
+  .hb-day.today:active{ transform:scale(0.92); }
+  .habit-pick-item{
+    display:flex; align-items:center; gap:8px; padding:11px 14px; border:1px solid var(--border);
+    border-radius:var(--radius-md); margin-bottom:8px; cursor:pointer; background:var(--surface);
+  }
+  .habit-pick-item.checked{ border-color:var(--primary); background:var(--accent-soft); }
+  .hp-check{ width:20px; height:20px; border-radius:6px; border:2px solid var(--border); flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:12px; }
+  .habit-pick-item.checked .hp-check{ background:var(--primary); border-color:var(--primary); color:#fff; }
+
+  /* ===== Routine ===== */
+  .routine-tabs{ display:flex; gap:8px; margin-bottom:16px; }
+  .routine-tabs .btn-chip{ flex:1; }
+  .routine-item{
+    display:flex; align-items:center; gap:10px; background:var(--surface); border:1px solid var(--border);
+    border-radius:var(--radius-sm); padding:12px 14px; margin-bottom:8px;
+  }
+  .routine-check{
+    width:24px; height:24px; border-radius:50%; border:2px solid var(--border); flex-shrink:0;
+    display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:13px; color:transparent;
+  }
+  .routine-item.done .routine-check{ background:var(--primary); border-color:var(--primary); color:#fff; }
+  .routine-item.done span.rtext{ text-decoration:line-through; opacity:.5; }
+  .routine-item .rtext{ flex:1; font-size:14px; }
+  .routine-item button{ background:none; border:none; color:var(--text-secondary); font-size:15px; cursor:pointer; }
+  .add-item-row{ display:flex; gap:8px; margin-bottom:16px; }
+  .add-item-row input{ flex:1; }
+
+  /* ===== Badges ===== */
+  .badge-grid{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .badge-card{
+    background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-md);
+    padding:18px 10px; text-align:center; position:relative;
+  }
+  .badge-card .b-icon{ font-size:30px; margin-bottom:8px; filter:grayscale(1); opacity:.35; }
+  .badge-card.unlocked .b-icon{ filter:none; opacity:1; }
+  .badge-card .b-title{ font-size:12.5px; font-weight:700; margin-bottom:3px; }
+  .badge-card .b-desc{ font-size:10.5px; color:var(--text-secondary); }
+  .badge-card.unlocked{ border-color:var(--accent); box-shadow:0 8px 22px -12px rgba(212,163,115,0.6); }
+  .badge-card.unlocked::after{ content:'✓'; position:absolute; top:8px; left:8px; width:18px; height:18px; border-radius:50%; background:var(--gold-grad); color:#3A2A16; font-size:11px; display:flex; align-items:center; justify-content:center; font-weight:800; }
+
+  /* ===== Gratitude ===== */
+  .streak-pill{
+    display:inline-flex; align-items:center; gap:6px; background:var(--accent-soft); color:var(--accent);
+    padding:6px 14px; border-radius:999px; font-size:12.5px; font-weight:700; margin-bottom:14px;
+  }
+  [data-theme="dark"] .streak-pill{ color:var(--accent-light); }
+
+  ::selection{ background:var(--accent-soft); }
 </style>
 </head>
 <body>
+<div class="blob blob-1"></div>
+<div class="blob blob-2"></div>
 <div id="app">
 
   <div class="topbar" id="topbar">
     <div class="back-btn" id="backBtn" style="visibility:hidden;" onclick="goBack()">
-      <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
     </div>
     <div class="title" id="screenTitle">آفاق</div>
     <div class="spacer"></div>
   </div>
 
-  <div class="screen active" id="screen-home">
-    <h1 class="hero-title">أهلاً بك يا صديقي ✨</h1>
-    <p class="hero-sub">النجاح هو مجموع خطوات صغيرة تتكرر يومياً</p>
+  <!-- ===== HOME ===== -->
+  <div class="screen" id="screen-home">
+    <div class="hero-panel">
+      <p class="eyebrow">آفاق</p>
+      <h1 class="hero-title">أهلًا بك في آفاق</h1>
+      <p class="hero-sub">خطوة صغيرة اليوم تصنع فرقًا مع الوقت</p>
+    </div>
 
-    <div class="card flip-card" onclick="go('daily-tip')" style="min-height:0; padding:30px 24px; text-align:right; display:block;">
-      <h3 style="color:#fff; margin-bottom:15px;">نصيحة اليوم</h3>
-      <p id="home-tip-text" style="margin-bottom:20px; font-size:16px; line-height:1.8;"></p>
-      <div style="display:inline-block; background:rgba(255,255,255,0.2); padding:8px 16px; border-radius:999px; font-size:13px; font-weight:700;">اقرأ المزيد ←</div>
+    <div class="card flip-card accented" onclick="go('daily-tip')" style="min-height:0; padding:22px; text-align:right; display:block;">
+      <h3>✨ نصيحة اليوم</h3>
+      <p class="serif" id="home-tip-text" style="margin-bottom:14px; font-size:16px;"></p>
+      <span class="btn btn-outline btn-sm">اقرأ المزيد</span>
     </div>
 
     <div class="quick-grid">
-      <div class="card quick-card" onclick="go('mood')">
-        <div class="quick-icon">🌿</div>
-        <p style="font-weight:800; font-size:15px; margin:0; color:var(--text-primary)">مؤشر المزاج</p>
-      </div>
-      <div class="card quick-card" onclick="go('breathing')">
-        <div class="quick-icon">🫧</div>
-        <p style="font-weight:800; font-size:15px; margin:0; color:var(--text-primary)">تمرين تنفس</p>
-      </div>
+      <div class="card quick-card" onclick="go('mood')"><div class="quick-icon">🌿</div><p style="font-weight:700; font-size:13px; margin:0;">مؤشر اليوم</p></div>
+      <div class="card quick-card" onclick="go('breathing')"><div class="quick-icon">🫧</div><p style="font-weight:700; font-size:13px; margin:0;">تمرين تنفس</p></div>
+      <div class="card quick-card" onclick="go('water')"><div class="quick-icon">💧</div><p style="font-weight:700; font-size:13px; margin:0;">شرب الماء</p></div>
     </div>
 
     <div class="card">
-      <h3 style="display:flex; justify-content:space-between;"><span>عجلة توازنك</span> <span style="font-size:14px; color:var(--accent); cursor:pointer;" onclick="go('lifewheel')">تحديث ⚙️</span></h3>
-      <p class="muted">نظرة سريعة على توازن حياتك الحالي</p>
-      <div class="wheel-bar-container" id="homeLifeWheel">
-        </div>
+      <h3>تقدّمك هذا الأسبوع</h3>
+      <p id="home-progress-text">0/7</p>
+      <div class="progress-track"><div class="progress-fill" id="home-progress-fill" style="width:0%"></div></div>
+      <p class="muted" style="margin-top:8px;">من لوحة العادات في تبويب "الأدوات"</p>
     </div>
+
+    <div class="card accented" onclick="go('achievements')" style="cursor:pointer; display:flex; align-items:center; gap:14px;">
+      <div class="quick-icon" style="margin:0; background:var(--gold-grad);">🏅</div>
+      <div><h3 style="margin:0 0 3px;">إنجازاتك</h3><p class="muted" style="margin:0;">اكتشف الشارات اللي فتحتها</p></div>
+    </div>
+
+    <div class="ad-placeholder">مكان إعلان لاحقًا</div>
   </div>
 
+  <!-- ===== TOOLS LIST ===== -->
   <div class="screen" id="screen-tools">
-    <h1 class="hero-title">أدوات التطوير</h1>
-    <p class="hero-sub">ترسانتك الخاصة لبناء حياة أفضل وأكثر إنتاجية</p>
+    <h1 class="hero-title">الأدوات</h1>
+    <p class="hero-sub">مجموعة أدوات لمساعدتك يومًا بعد يوم</p>
 
-    <div class="tool-row" onclick="go('pomodoro')">
-      <div class="tool-icon">⏳</div>
-      <div class="tool-text"><h4>مؤقت الإنجاز (بومودورو)</h4><span>25 دقيقة تركيز كفيلة بصنع المعجزات</span></div>
-    </div>
-    
-    <div class="tool-row" onclick="go('gratitude')">
-      <div class="tool-icon">🍯</div>
-      <div class="tool-text"><h4>برطمان الامتنان</h4><span>اكتب 3 أشياء تسعدك لبرمجة عقلك على الوفرة</span></div>
-    </div>
+    <div class="section-heading">الإلهام اليومي</div>
+    <div class="tool-row" onclick="go('daily-tip')"><div class="tool-icon">✨</div><div class="tool-text"><h4>نصيحة اليوم</h4><span>بطاقة نصيحة يومية ملهمة</span></div><div class="chev">‹</div></div>
+    <div class="tool-row" onclick="go('challenge')"><div class="tool-icon">🎲</div><div class="tool-text"><h4>تحدي صغير</h4><span>خطوة بسيطة تقدر تسويها الآن</span></div><div class="chev">‹</div></div>
 
-    <div class="tool-row" onclick="go('affirmations')">
-      <div class="tool-icon">💎</div>
-      <div class="tool-text"><h4>التوكيدات الإيجابية</h4><span>كلمات تعيد برمجة عقلك الباطن للنجاح</span></div>
-    </div>
+    <div class="section-heading">الوعي الذاتي</div>
+    <div class="tool-row" onclick="go('mood')"><div class="tool-icon">🌿</div><div class="tool-text"><h4>مؤشر اليوم</h4><span>كيف تشعر الآن؟</span></div><div class="chev">‹</div></div>
+    <div class="tool-row" onclick="go('wheel')"><div class="tool-icon">🎯</div><div class="tool-text"><h4>عجلة الحياة</h4><span>قيّم مجالات حياتك المختلفة</span></div><div class="chev">‹</div></div>
+    <div class="tool-row" onclick="go('reflection')"><div class="tool-icon">💭</div><div class="tool-text"><h4>سؤال للتأمل</h4><span>خذ لحظة واكتب ما يخطر ببالك</span></div><div class="chev">‹</div></div>
+    <div class="tool-row" onclick="go('gratitude')"><div class="tool-icon">🌸</div><div class="tool-text"><h4>دفتر الامتنان</h4><span>3 أشياء تشكر عليها اليوم</span></div><div class="chev">‹</div></div>
 
-    <div class="tool-row" onclick="go('lifewheel')">
-      <div class="tool-icon">🎯</div>
-      <div class="tool-text"><h4>عجلة الحياة</h4><span>قيّم جوانب حياتك وحدد أين تحتاج للتحسين</span></div>
-    </div>
+    <div class="section-heading">الطاقة والتركيز</div>
+    <div class="tool-row" onclick="go('breathing')"><div class="tool-icon">🫧</div><div class="tool-text"><h4>تمرين التنفس</h4><span>دقيقة واحدة من الهدوء</span></div><div class="chev">‹</div></div>
+    <div class="tool-row" onclick="go('pomodoro')"><div class="tool-icon">⏱️</div><div class="tool-text"><h4>مؤقت التركيز</h4><span>جلسات عمل مركزة وفواصل راحة</span></div><div class="chev">‹</div></div>
+    <div class="tool-row" onclick="go('water')"><div class="tool-icon">💧</div><div class="tool-text"><h4>متتبع الماء</h4><span>تابع أكواب الماء اليومية</span></div><div class="chev">‹</div></div>
 
-    <div class="tool-row" onclick="go('reflection')">
-      <div class="tool-icon">💭</div>
-      <div class="tool-text"><h4>التأمل الذاتي</h4><span>أسئلة عميقة لاكتشاف ذاتك وإزالة التشتت</span></div>
-    </div>
+    <div class="section-heading">الإنتاجية والعادات</div>
+    <div class="tool-row" onclick="go('habit')"><div class="tool-icon">✅</div><div class="tool-text"><h4>لوحة العادات</h4><span>تابع عدة عادات أسبوعيًا</span></div><div class="chev">‹</div></div>
+    <div class="tool-row" onclick="go('matrix')"><div class="tool-icon">🗂️</div><div class="tool-text"><h4>مصفوفة الأولويات</h4><span>رتّب مهامك حسب الأهمية</span></div><div class="chev">‹</div></div>
+    <div class="tool-row" onclick="go('routine')"><div class="tool-icon">🌅</div><div class="tool-text"><h4>روتين يومي</h4><span>روتينك الصباحي والمسائي</span></div><div class="chev">‹</div></div>
+    <div class="tool-row" onclick="go('journal')"><div class="tool-icon">📓</div><div class="tool-text"><h4>المفكرة اليومية</h4><span>دوّن أفكارك وملاحظاتك</span></div><div class="chev">‹</div></div>
 
-    <div class="tool-row" onclick="go('habit')">
-      <div class="tool-icon">✅</div>
-      <div class="tool-text"><h4>متتبع العادات</h4><span>اختر عادة صغيرة وتابعها لمدة 7 أيام</span></div>
-    </div>
+    <div class="section-heading">إنجازاتك</div>
+    <div class="tool-row" onclick="go('achievements')"><div class="tool-icon">🏅</div><div class="tool-text"><h4>الإنجازات</h4><span>الشارات اللي حصّلتها</span></div><div class="chev">‹</div></div>
   </div>
 
+  <!-- ===== SETTINGS ===== -->
   <div class="screen" id="screen-settings">
     <h1 class="hero-title">الإعدادات</h1>
-    
     <div class="card">
       <div class="settings-row">
-        <p style="margin:0; font-weight:700; font-size:16px;">الوضع الفخم (الداكن)</p>
-        <label class="switch">
-          <input type="checkbox" id="darkToggle" onchange="toggleTheme()">
-          <span class="track"></span>
-          <span class="thumb"></span>
-        </label>
+        <p style="margin:0;">الوضع الداكن</p>
+        <label class="switch"><input type="checkbox" id="darkToggle" onchange="toggleTheme()"><span class="track"></span><span class="thumb"></span></label>
       </div>
     </div>
-
     <div class="card">
-      <h3>عن التطبيق</h3>
-      <p class="muted" style="margin-bottom:10px;">آفاق | تطوير الحياة والذات</p>
-      <p class="muted">نسخة VIP مخصصة للارتقاء بجودة حياتك وإنتاجيتك عبر أدوات علمية ومثبتة.</p>
+      <h3>التنويه القانوني</h3>
+      <p id="legalText" style="display:none;">تطبيق آفاق مخصص لتطوير نمط الحياة، التأمل الذاتي، وبناء العادات اليومية. لا يقدم التطبيق تشخيصًا طبيًا أو علاجًا نفسيًا، ولا يغني عن استشارة مختص عند الحاجة.</p>
+      <button class="btn btn-outline" id="legalBtn" onclick="showLegal()">عرض التنويه</button>
     </div>
-
-    <div class="card">
-      <h3 style="color:var(--danger)">إدارة البيانات</h3>
-      <p class="muted" style="margin-bottom:15px;">يتم حفظ جميع بياناتك وإنجازاتك داخل هاتفك فقط لضمان الخصوصية التامة.</p>
-      <button class="btn btn-outline btn-block" style="border-color:var(--danger); color:var(--danger);" onclick="clearAllData()">مسح جميع بياناتي وإنجازاتي</button>
-    </div>
+    <div class="card"><h3>سياسة الخصوصية</h3><p class="muted">سيتم إضافة رابط سياسة الخصوصية هنا قبل النشر على المتجر. جميع بياناتك تُحفظ محليًا على جهازك فقط.</p></div>
+    <div class="card"><h3>البيانات المحلية</h3><p class="muted" style="margin-bottom:14px;">يمكنك مسح كل بيانات التطبيق المحفوظة على هذا الجهاز.</p><button class="btn btn-outline" onclick="clearAllData()">مسح البيانات المحلية</button></div>
+    <div class="card"><h3>عن التطبيق</h3><p class="muted">آفاق | تطوير الحياة — الإصدار 2.0.0</p></div>
   </div>
 
+  <!-- ===== DAILY TIP ===== -->
   <div class="screen" id="screen-daily-tip">
-    <h1 class="hero-title">جرعة وعي</h1>
-    <p class="hero-sub">حكمة اليوم التي قد تغير مسار أسبوعك</p>
-    <div class="card flip-card" id="tipCard" onclick="revealTip()">
-      <div id="tipCardInner">
-        <div class="flip-icon">✨</div>
-        <p style="margin:0; font-size:20px; font-weight:700;">اضغط لاكتشاف الرسالة</p>
-      </div>
+    <h1 class="hero-title">نصيحة اليوم</h1>
+    <p class="hero-sub">اضغط على البطاقة لاكتشاف نصيحة اليوم</p>
+    <div class="card flip-card accented" id="tipCard" onclick="revealTip()"><div id="tipCardInner"><div class="flip-icon">✨</div><p style="margin:0;">اكتشف نصيحة اليوم</p></div></div>
+    <div class="btn-row" id="tipActions" style="display:none;">
+      <button class="btn btn-outline btn-sm" onclick="event.stopPropagation(); newTip();">نصيحة أخرى</button>
+      <button class="btn btn-outline btn-sm" onclick="event.stopPropagation(); saveTip();">حفظ</button>
+      <button class="btn btn-outline btn-sm" onclick="event.stopPropagation(); shareTip();">مشاركة</button>
     </div>
-    <div class="btn-row" id="tipActions" style="display:none; margin-top:20px;">
-      <button class="btn btn-primary" onclick="event.stopPropagation(); saveTip();">حفظ الرسالة</button>
-      <button class="btn btn-outline" onclick="event.stopPropagation(); newTip();">رسالة أخرى</button>
-    </div>
-    <div id="savedTipsWrap" style="margin-top:30px;"></div>
+    <div id="savedTipsWrap"></div>
+    <div class="ad-placeholder">مكان إعلان لاحقًا</div>
   </div>
 
+  <!-- ===== MOOD ===== -->
   <div class="screen" id="screen-mood">
-    <h1 class="hero-title">مؤشر المزاج</h1>
-    <p class="hero-sub">الوعي بمشاعرك هو أول خطوة للتحكم بها، كيف تشعر الآن؟</p>
+    <h1 class="hero-title">مؤشر اليوم</h1>
+    <p class="hero-sub">كيف تشعر الآن؟</p>
     <div class="mood-grid" id="moodGrid"></div>
-    <div class="card" id="moodAdviceCard" style="display:none; margin-top:24px; border-left:4px solid var(--accent);">
-      <p class="muted" style="margin-bottom:10px; color:var(--accent); font-weight:700;">استراتيجية التعامل:</p>
-      <p id="moodAdviceText" style="font-size:17px; font-weight:700; line-height:1.6;"></p>
+    <div class="card" id="moodAdviceCard" style="display:none; margin-top:16px;">
+      <p class="muted" style="margin-bottom:6px;">نصيحة مناسبة لحالتك</p>
+      <p id="moodAdviceText" style="font-size:17px;"></p>
     </div>
+    <div id="moodHistoryWrap"></div>
   </div>
 
+  <!-- ===== BREATHING ===== -->
   <div class="screen" id="screen-breathing">
-    <h1 class="hero-title">تمرين التنفس 4-7-8</h1>
-    <p class="hero-sub">سر الاسترخاء العميق وتخفيف التوتر في دقيقة واحدة</p>
+    <h1 class="hero-title">تمرين التنفس</h1>
+    <p class="hero-sub">اختر مدة التمرين وابدأ</p>
+    <div class="chip-row" id="breathDurationChips">
+      <button class="btn-chip active" data-sec="60" onclick="setBreathDuration(60,this)">دقيقة</button>
+      <button class="btn-chip" data-sec="180" onclick="setBreathDuration(180,this)">3 دقائق</button>
+      <button class="btn-chip" data-sec="300" onclick="setBreathDuration(300,this)">5 دقائق</button>
+    </div>
     <div class="breathe-wrap">
-      <div class="breathe-ring-outer">
-        <div class="breathe-circle" id="breathCircle"><span id="breathLabel">جاهز؟</span></div>
-      </div>
-      <button class="btn btn-primary" id="breathBtn" onclick="toggleBreathing()">ابدأ التمرين</button>
+      <div class="breathe-ring-outer"><div class="breathe-circle" id="breathCircle"><span id="breathLabel">جاهز؟</span></div></div>
+      <button class="btn btn-primary" id="breathBtn" onclick="toggleBreathing()">ابدأ</button>
+      <p class="muted" style="margin-top:14px;" id="breathDurationLabel">مدة التمرين: دقيقة واحدة</p>
     </div>
   </div>
 
-  <div class="screen" id="screen-pomodoro">
-    <h1 class="hero-title">مؤقت الإنجاز</h1>
-    <p class="hero-sub">تقنية بومودورو: 25 دقيقة من التركيز الخالص تصنع المعجزات</p>
-    <div class="card" style="display:flex; flex-direction:column; align-items:center; padding:40px 20px;">
-      <div class="timer-status" id="pomoStatus">وقت التركيز 🎯</div>
-      <div class="timer-display" id="pomoDisplay">25:00</div>
-      <div class="btn-row" style="width:100%; margin-top:30px;">
-        <button class="btn btn-primary" id="pomoStartBtn" onclick="startPomodoro()">ابدأ التركيز</button>
-        <button class="btn btn-outline" onclick="resetPomodoro()">إعادة ضبط</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="screen" id="screen-gratitude">
-    <h1 class="hero-title">برطمان الامتنان</h1>
-    <p class="hero-sub">السعادة لا تجلب الامتنان، الامتنان هو ما يجلب السعادة</p>
-    <div class="card">
-      <p style="margin-bottom:15px; font-weight:700;">اكتب 3 أشياء بسيطة تشعر بالامتنان لوجودها اليوم:</p>
-      <textarea id="gratitudeInput" placeholder="مثال: ممتن لكوب القهوة الصباحي، لرسالة من صديق، للصحة والعافية..."></textarea>
-      <button class="btn btn-primary btn-block" style="margin-top:16px;" onclick="saveGratitude()">ضعها في البرطمان 🍯</button>
-    </div>
-    <h3 style="margin-top:30px; margin-bottom:15px; font-size:18px;">مذكرات الامتنان السابقة</h3>
-    <div id="gratitudeList"></div>
-  </div>
-
-  <div class="screen" id="screen-affirmations">
-    <h1 class="hero-title">التوكيدات الإيجابية</h1>
-    <p class="hero-sub">كرر هذه الكلمات بصدق لتعيد برمجة عقلك الباطن</p>
-    <div class="card" style="min-height:200px; display:flex; align-items:center; justify-content:center; text-align:center; background:var(--accent-soft); border:none;">
-      <p id="affirmationText" style="font-size:22px; font-weight:800; color:var(--primary); line-height:1.6;">اضغط الزر بالأسفل للحصول على توكيدك</p>
-    </div>
-    <button class="btn btn-primary btn-block" style="margin-top:20px; font-size:18px;" onclick="generateAffirmation()">أعطني توكيداً جديداً ✨</button>
-  </div>
-
-  <div class="screen" id="screen-lifewheel">
-    <h1 class="hero-title">عجلة الحياة</h1>
-    <p class="hero-sub">قيّم جوانب حياتك من 1 إلى 10 لتعرف أين يجب أن تركز طاقتك</p>
-    
-    <div class="card">
-      <div class="wheel-slider-group">
-        <label><span>الصحة والطاقة 🍎</span> <span id="valHealth">5</span></label>
-        <input type="range" id="slHealth" min="1" max="10" value="5" oninput="updateWheel()">
-      </div>
-      <div class="wheel-slider-group">
-        <label><span>العمل والمال 💼</span> <span id="valWork">5</span></label>
-        <input type="range" id="slWork" min="1" max="10" value="5" oninput="updateWheel()">
-      </div>
-      <div class="wheel-slider-group">
-        <label><span>العائلة والعلاقات 👨‍👩‍👧</span> <span id="valFamily">5</span></label>
-        <input type="range" id="slFamily" min="1" max="10" value="5" oninput="updateWheel()">
-      </div>
-      <div class="wheel-slider-group">
-        <label><span>التطور الشخصي 📚</span> <span id="valGrowth">5</span></label>
-        <input type="range" id="slGrowth" min="1" max="10" value="5" oninput="updateWheel()">
-      </div>
-      <div class="wheel-slider-group" style="margin-bottom:0;">
-        <label><span>الروحانية والسلام 🕊️</span> <span id="valSpirit">5</span></label>
-        <input type="range" id="slSpirit" min="1" max="10" value="5" oninput="updateWheel()">
-      </div>
-      <button class="btn btn-primary btn-block" style="margin-top:20px;" onclick="saveWheel()">حفظ التقييم</button>
-    </div>
-  </div>
-
+  <!-- ===== REFLECTION ===== -->
   <div class="screen" id="screen-reflection">
-    <h1 class="hero-title">التأمل الذاتي</h1>
-    <p class="hero-sub">الوضوح يسبق الإنجاز. خذ لحظة وجاوب بصدق</p>
-    <div class="card">
-      <p id="reflectionQuestion" style="font-size:18px; font-weight:700; margin-bottom:16px; color:var(--primary);"></p>
-      <textarea id="reflectionAnswer" placeholder="اكتب إجابتك هنا وكن صادقاً مع نفسك..."></textarea>
-    </div>
-    <div class="btn-row">
-      <button class="btn btn-primary" onclick="saveReflection()">حفظ الإجابة</button>
-      <button class="btn btn-outline" onclick="newReflectionQuestion()">سؤال مختلف</button>
+    <h1 class="hero-title">سؤال للتأمل</h1>
+    <p class="hero-sub">خذ لحظة، واكتب ما يخطر ببالك بصدق</p>
+    <div class="card"><p id="reflectionQuestion" style="font-size:17px; margin-bottom:14px;"></p><textarea id="reflectionAnswer" placeholder="اكتب إجابتك هنا..."></textarea></div>
+    <div class="btn-row"><button class="btn btn-primary" onclick="saveReflection()">حفظ الإجابة</button><button class="btn btn-outline" onclick="newReflectionQuestion()">سؤال جديد</button></div>
+    <p class="muted">البيانات تُحفظ محليًا على جهازك فقط.</p>
+  </div>
+
+  <!-- ===== GRATITUDE ===== -->
+  <div class="screen" id="screen-gratitude">
+    <h1 class="hero-title">دفتر الامتنان</h1>
+    <p class="hero-sub">اكتب 3 أشياء تشعر بالامتنان لها اليوم</p>
+    <div class="streak-pill" id="gratitudeStreak">🔥 متتالية: 0 يوم</div>
+    <div class="card"><textarea id="gratitudeInput" placeholder="اليوم أنا ممتن لـ..."></textarea><button class="btn btn-gold btn-block" style="margin-top:14px;" onclick="saveGratitude()">حفظ</button></div>
+    <div id="gratitudeEntries"></div>
+  </div>
+
+  <!-- ===== CHALLENGE ===== -->
+  <div class="screen" id="screen-challenge">
+    <h1 class="hero-title">تحدي صغير</h1>
+    <p class="hero-sub">اضغط الزر لتحصل على تحدٍ بسيط الآن</p>
+    <div style="text-align:center; margin-top:20px;">
+      <button class="btn btn-gold" id="challengeBtn" onclick="rollChallenge()">🎲 اضغط للحصول على تحدٍ</button>
+      <div class="card" id="challengeCard" style="display:none; margin-top:24px; text-align:center;"><p class="muted" style="margin-bottom:8px;">تحديك الآن</p><p id="challengeText" style="font-size:18px;"></p></div>
     </div>
   </div>
 
+  <!-- ===== WHEEL OF LIFE ===== -->
+  <div class="screen" id="screen-wheel">
+    <h1 class="hero-title">عجلة الحياة</h1>
+    <p class="hero-sub">قيّم كل مجال من 1 إلى 10 وشاهد الصورة الكاملة</p>
+    <div class="card">
+      <div class="radar-wrap"><canvas id="radarCanvas" width="280" height="280"></canvas></div>
+    </div>
+    <div class="card" id="wheelSliders"></div>
+    <button class="btn btn-primary btn-block" onclick="saveWheel()">حفظ التقييم</button>
+    <p class="muted" id="wheelSavedNote" style="margin-top:10px;"></p>
+  </div>
+
+  <!-- ===== POMODORO ===== -->
+  <div class="screen" id="screen-pomodoro">
+    <h1 class="hero-title">مؤقت التركيز</h1>
+    <p class="hero-sub">جلسات عمل مركزة مع فواصل راحة</p>
+    <div class="chip-row" id="pomoDurationChips">
+      <button class="btn-chip active" data-min="25" onclick="setPomoDuration(25,this)">25 دقيقة</button>
+      <button class="btn-chip" data-min="15" onclick="setPomoDuration(15,this)">15 دقيقة</button>
+      <button class="btn-chip" data-min="45" onclick="setPomoDuration(45,this)">45 دقيقة</button>
+    </div>
+    <div class="ring-wrap"><div class="ring-outer" id="pomoRing" style="--deg:0;"><div class="ring-inner"><div class="time" id="pomoTime">25:00</div><div class="mode" id="pomoMode">تركيز</div></div></div></div>
+    <div class="btn-row"><button class="btn btn-primary" id="pomoStartBtn" onclick="togglePomo()">ابدأ</button><button class="btn btn-outline" onclick="resetPomo()">إعادة ضبط</button></div>
+    <p class="muted" style="text-align:center;" id="pomoSessionsText">جلسات اليوم: 0</p>
+  </div>
+
+  <!-- ===== WATER ===== -->
+  <div class="screen" id="screen-water">
+    <h1 class="hero-title">متتبع الماء</h1>
+    <p class="hero-sub">اضغط على الكأس لتحديث استهلاكك اليومي</p>
+    <div class="card" style="text-align:center;">
+      <p id="waterCountText" style="font-size:28px; font-weight:800; margin:0 0 6px;">0/8</p>
+      <p class="muted" style="margin-bottom:6px;">أكواب اليوم</p>
+      <div class="water-grid" id="waterGrid"></div>
+    </div>
+  </div>
+
+  <!-- ===== HABIT BOARD ===== -->
   <div class="screen" id="screen-habit">
-    <h1 class="hero-title">متتبع العادات</h1>
-    <div id="habitPicker">
-      <p class="hero-sub">قوة التراكم: اختر عادة صغيرة لتطبيقها لمدة 7 أيام متتالية</p>
-      <div class="tile-grid mood-grid" id="habitGrid"></div>
-    </div>
-    <div id="habitTracker" style="display:none;">
-      <div class="card" style="text-align:center; padding:30px 20px;">
-        <p class="muted">عادتك لهذا الأسبوع</p>
-        <p id="habitCurrentLabel" style="font-size:26px; font-weight:800; color:var(--primary); margin:10px 0 20px;"></p>
-        <p id="habitCountText" style="font-size:16px; font-weight:700; color:var(--accent); margin-bottom:10px;"></p>
-        <div class="progress-track" style="height:16px;"><div class="progress-fill" id="habitProgressFill" style="width:0%"></div></div>
-        <button class="btn btn-primary btn-block" style="margin-top:30px; font-size:18px;" onclick="markHabitToday()">✅ أنجزتها اليوم</button>
+    <h1 class="hero-title">لوحة العادات</h1>
+    <p class="hero-sub">اختر حتى 5 عادات لمتابعتها أسبوعيًا (اضغط اليوم لتسجيله)</p>
+    <div id="habitPickWrap"></div>
+    <div id="habitBoardWrap" style="margin-top:10px;"></div>
+  </div>
+
+  <!-- ===== EISENHOWER MATRIX ===== -->
+  <div class="screen" id="screen-matrix">
+    <h1 class="hero-title">مصفوفة الأولويات</h1>
+    <p class="hero-sub">اكتب مهمة، ثم اختر أي ربع يناسبها</p>
+    <div class="matrix-add">
+      <input type="text" id="matrixInput" placeholder="اكتب مهمة جديدة..." style="margin-bottom:10px;">
+      <div class="chip-row" style="margin-bottom:0;">
+        <button class="btn-chip" onclick="addMatrixTask('important')">عاجل ومهم</button>
+        <button class="btn-chip" onclick="addMatrixTask('schedule')">مهم غير عاجل</button>
+        <button class="btn-chip" onclick="addMatrixTask('delegate')">عاجل غير مهم</button>
+        <button class="btn-chip" onclick="addMatrixTask('eliminate')">غير عاجل وغير مهم</button>
       </div>
-      <div class="btn-row">
-        <button class="btn btn-outline" onclick="changeHabit()">تغيير العادة</button>
-        <button class="btn btn-outline" style="border-color:var(--danger); color:var(--danger);" onclick="resetHabit()">تصفير العداد</button>
-      </div>
     </div>
+    <div class="quadrant-grid">
+      <div class="quadrant-box q-important"><h4>🔴 عاجل ومهم</h4><div id="q-important"></div></div>
+      <div class="quadrant-box q-schedule"><h4>🟡 مهم غير عاجل</h4><div id="q-schedule"></div></div>
+      <div class="quadrant-box q-delegate"><h4>🔵 عاجل غير مهم</h4><div id="q-delegate"></div></div>
+      <div class="quadrant-box q-eliminate"><h4>⚪ غير عاجل وغير مهم</h4><div id="q-eliminate"></div></div>
+    </div>
+  </div>
+
+  <!-- ===== ROUTINE ===== -->
+  <div class="screen" id="screen-routine">
+    <h1 class="hero-title">روتين يومي</h1>
+    <div class="routine-tabs">
+      <button class="btn-chip active" id="routineTabMorning" onclick="switchRoutineTab('morning')">☀️ صباحي</button>
+      <button class="btn-chip" id="routineTabEvening" onclick="switchRoutineTab('evening')">🌙 مسائي</button>
+    </div>
+    <div id="routineList"></div>
+    <div class="add-item-row"><input type="text" id="routineInput" placeholder="أضف عنصر جديد..."><button class="btn btn-outline btn-sm" onclick="addRoutineItem()">إضافة</button></div>
+  </div>
+
+  <!-- ===== JOURNAL ===== -->
+  <div class="screen" id="screen-journal">
+    <h1 class="hero-title">المفكرة اليومية</h1>
+    <p class="muted" id="journalDate" style="margin-bottom:14px;"></p>
+    <div class="card"><p style="margin-bottom:10px;">كيف كان يومك؟ ما الذي تريد تدوينه؟</p><textarea id="journalInput" placeholder="اكتب هنا..."></textarea><button class="btn btn-primary btn-block" style="margin-top:14px;" onclick="saveJournal()">حفظ</button></div>
+    <div id="journalEntries"></div>
+  </div>
+
+  <!-- ===== ACHIEVEMENTS ===== -->
+  <div class="screen" id="screen-achievements">
+    <h1 class="hero-title">إنجازاتك</h1>
+    <p class="hero-sub">شارات تفتحها كل ما تستمر باستخدام آفاق</p>
+    <div class="badge-grid" id="badgeGrid"></div>
   </div>
 
   <div class="bottom-nav" id="bottomNav">
     <button class="nav-btn active" data-tab="home" onclick="goTab('home')">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
       الرئيسية
     </button>
     <button class="nav-btn" data-tab="tools" onclick="goTab('tools')">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
       الأدوات
     </button>
     <button class="nav-btn" data-tab="settings" onclick="goTab('settings')">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
       الإعدادات
     </button>
   </div>
@@ -513,403 +700,497 @@
 
 <script>
 /* ============================================================
-   آفاق VIP | تطوير الحياة والذات 
-   تمت البرمجة لتعمل بالكامل محلياً (بدون خوادم) لضمان الخصوصية والسرعة.
+   آفاق | تطوير الحياة — نسخة الويب الموسّعة
+   كل البيانات تُحفظ محليًا في المتصفح عبر localStorage فقط.
    ============================================================ */
 
-const STORAGE_PREFIX = 'afaqvip_';
+const P = 'afaq2_';
 const K = {
-  THEME: STORAGE_PREFIX + 'theme',
-  HABIT: STORAGE_PREFIX + 'habit',
-  HABIT_PROGRESS: STORAGE_PREFIX + 'habit_progress',
-  SAVED_TIPS: STORAGE_PREFIX + 'saved_tips',
-  REFLECTIONS: STORAGE_PREFIX + 'reflections',
-  GRATITUDE: STORAGE_PREFIX + 'gratitude',
-  LIFEWHEEL: STORAGE_PREFIX + 'lifewheel'
+  THEME:P+'theme', HABITS_SEL:P+'habits_sel', HABIT_PROG:P+'habit_prog',
+  SAVED_TIPS:P+'saved_tips', REFLECTIONS:P+'reflections', JOURNAL:P+'journal',
+  MOOD_HISTORY:P+'mood_history', WHEEL:P+'wheel', MATRIX:P+'matrix',
+  WATER:P+'water', POMODORO:P+'pomodoro', GRATITUDE:P+'gratitude',
+  ROUTINE_ITEMS:P+'routine_items', ROUTINE_DONE:P+'routine_done',
 };
 
-function getData(key, fallback){ try{ const raw = localStorage.getItem(key); return raw ? JSON.parse(raw) : fallback; }catch(e){ return fallback; } }
-function setData(key, value){ try{ localStorage.setItem(key, JSON.stringify(value)); }catch(e){} }
-
-/* ===== قواعد البيانات المحلية ===== */
-const DAILY_TIPS = [
-  'الناجحون لا يولدون بأهداف واضحة، بل يكتشفونها من خلال التجربة المستمرة. جرب شيئاً جديداً اليوم.',
-  'إذا أردت تغيير حياتك، غيّر عاداتك الصباحية. أول ساعة من يومك تحدد مسار البقية.',
-  'لا تقارن بدايتك بموسم حصاد شخص آخر. ركز على زراعة بذورك اليوم.',
-  'القلق لا يمنع ألم الغد، بل يسرق متعة اليوم. تنفس وعش اللحظة.',
-  'المهام الكبيرة مخيفة، قسمها لخطوات صغيرة تستغرق 5 دقائق فقط وابدأ بالأولى.',
-  'أكبر استثمار في حياتك هو صحتك وعقلك. اقرأ صفحة، اشرب ماء، وامشِ قليلاً.'
-];
-const MOODS = [
-  {id:'amazing', label:'رائع', emoji:'🤩', advice:'طاقة ممتازة! استغل هذا الشعور في إنجاز المهام الصعبة المكتوبة في قائمتك.'},
-  {id:'calm', label:'هادئ', emoji:'😌', advice:'حالة ذهنية مثالية للتخطيط أو قراءة كتاب أو التأمل.'},
-  {id:'unsure', label:'مشتت', emoji:'🤔', advice:'التشتت يعني أفكاراً كثيرة غير مرتبة. اكتب كل ما تفكر فيه على ورقة لتفريغ عقلك.'},
-  {id:'tired', label:'مرهق', emoji:'😮‍💨', advice:'جسدك يطلب الراحة. لا تجبر نفسك على الإنجاز، خذ استراحة واستخدم تمرين التنفس.'},
-  {id:'sad', label:'حزين', emoji:'😔', advice:'من الطبيعي أن تحزن. اكتب في (برطمان الامتنان) 3 أشياء بسيطة تملكها لتخفيف الثقل.'},
-];
-const REFLECTION_QUESTIONS = [
-  'لو كان اليوم هو آخر يوم في حياتك، هل ستفعل ما أنت بصدد فعله اليوم؟',
-  'ما هي العادة السيئة التي تستهلك طاقتك وتود التخلص منها؟',
-  'ما هو الشيء الوحيد الذي لو أنجزته اليوم ستشعر بالرضا التام؟',
-  'من هو الشخص الذي يؤثر عليك إيجابياً؟ وكيف تقضي وقتاً أطول معه؟',
-  'ما هو الخوف الذي يمنعك من التقدم خطوة للأمام؟'
-];
-const AFFIRMATIONS = [
-  'أنا أستحق النجاح والوفرة في كل جوانب حياتي.',
-  'كل يوم أكتسب قوة ووضوحاً أكثر لتحقيق أهدافي.',
-  'أنا أسامح نفسي على أخطاء الماضي، وأركز على بناء مستقبلي.',
-  'لدي القدرة الكاملة على تجاوز أي عقبة تواجهني.',
-  'أنا أجذب الفرص الإيجابية والأشخاص الداعمين لحياتي.',
-  'صحتي الجسدية والنفسية تتحسن كل يوم.'
-];
-const HABITS = [
-  {id:'water', label:'شرب لترين ماء', emoji:'💧'},
-  {id:'reading', label:'قراءة 10 صفحات', emoji:'📚'},
-  {id:'walk', label:'مشي 30 دقيقة', emoji:'🚶‍♂️'},
-  {id:'sleep', label:'النوم مبكراً', emoji:'😴'},
-  {id:'nofear', label:'تجنب الشكوى', emoji:'🤐'},
-  {id:'phone', label:'تقليل الشاشات', emoji:'📵'}
-];
-
+function getData(key, fb){ try{ const r = localStorage.getItem(key); return r ? JSON.parse(r) : fb; }catch(e){ return fb; } }
+function setData(key, v){ try{ localStorage.setItem(key, JSON.stringify(v)); }catch(e){} }
 function pickRandom(arr, exclude){
-  if(arr.length === 1) return arr[0];
-  let choice = arr[Math.floor(Math.random()*arr.length)];
-  let attempts = 0;
-  while(choice === exclude && attempts < 8){ choice = arr[Math.floor(Math.random()*arr.length)]; attempts++; }
-  return choice;
+  if(arr.length===1) return arr[0];
+  let c = arr[Math.floor(Math.random()*arr.length)], a=0;
+  while(c===exclude && a<8){ c = arr[Math.floor(Math.random()*arr.length)]; a++; }
+  return c;
 }
-function todayKey(){ const d = new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+function todayKey(){ const d=new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+function formatArabicDate(){ return new Date().toLocaleDateString('ar-EG', {weekday:'long', year:'numeric', month:'long', day:'numeric'}); }
+function dayLabel(offset){ const d=new Date(); d.setDate(d.getDate()-offset); return d.toLocaleDateString('ar-EG',{weekday:'short'}); }
+function dateKeyOffset(offset){ const d=new Date(); d.setDate(d.getDate()-offset); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
 
-/* ===== التنقل والتوجيه ===== */
-const TAB_SCREENS = { home:'home', tools:'tools', settings:'settings' };
+/* ===== Content ===== */
+const DAILY_TIPS = ['اختر عادة واحدة فقط هذا الأسبوع، واجعلها سهلة لدرجة يصعب تركها.','ابدأ يومك بسؤال: ما الشيء الواحد الذي يجعل بقية اليوم أخف؟','بدل أن تضع قائمة طويلة، اختر خطوة واحدة وامنحها وقتًا واضحًا.','رتّب مكانًا صغيرًا حولك؛ أحيانًا الوضوح يبدأ من مساحة بسيطة.','الاستمرار أهم من المثالية.','لا تحاول تغيير كل شيء اليوم؛ غيّر شيئًا صغيرًا وكرره بهدوء.'];
+const MOODS = [{id:'calm',label:'هادئ',emoji:'🌿',advice:'حافظ على هدوئك بخطوة صغيرة واضحة، ولا تملأ يومك بمهام كثيرة.'},{id:'busy',label:'مشغول',emoji:'⏳',advice:'اختر أولوية واحدة الآن، وأجّل ما لا يحتاج قرارًا فوريًا.'},{id:'unsure',label:'متردد',emoji:'🤔',advice:'اكتب الخيارات على ورقة، ثم اختر الخطوة الأقل ضغطًا كبداية.'},{id:'tired',label:'مرهق',emoji:'🍃',advice:'خفف المتطلبات اليوم، وخذ 6 أنفاس بطيئة قبل البدء.'},{id:'excited',label:'متحمس',emoji:'✨',advice:'استثمر حماسك في عادة بسيطة قابلة للاستمرار لا في قائمة طويلة.'}];
+const REFLECTION_QUESTIONS = ['ما الشيء الذي أريد تبسيطه اليوم؟','ما العادة التي أريد بناءها بهدوء؟','ما القرار الذي يحتاج ترتيبًا لا استعجالًا؟','ما الشيء الذي يستنزف طاقتي أكثر مما يستحق؟','ما الخطوة الصغيرة الممكنة الآن؟','ما الشيء الذي أستطيع التخلي عنه هذا الأسبوع؟','ما الأمر الذي لو نظمته سيجعل يومي أخف؟'];
+const CHALLENGES = ['اكتب 3 أولويات فقط لليوم.','خذ دقيقة تنفس بطيء.','رتب مكتبك أو هاتفك لمدة 5 دقائق.','اشرب كوب ماء وخذ استراحة قصيرة.','اكتب شيئًا واحدًا تشعر بالامتنان له.','ابتعد عن الهاتف 10 دقائق.','امشِ داخل المكان أو خارجه لمدة 7 دقائق بدون هاتف.','احذف مهمة غير ضرورية من قائمة اليوم.'];
+const HABITS = [{id:'water',label:'شرب ماء',emoji:'💧'},{id:'reading',label:'قراءة 5 دقائق',emoji:'📖'},{id:'tidy',label:'ترتيب المكتب',emoji:'🧹'},{id:'breathe',label:'تنفس دقيقة',emoji:'🌬️'},{id:'write',label:'كتابة فكرة يومية',emoji:'✍️'},{id:'walk',label:'مشي قصير',emoji:'🚶'},{id:'phone',label:'تقليل الهاتف',emoji:'📵'}];
+const WHEEL_AREAS = [{id:'health',label:'الصحة'},{id:'work',label:'العمل'},{id:'relations',label:'العلاقات'},{id:'money',label:'المال'},{id:'growth',label:'النمو الذاتي'},{id:'fun',label:'الترفيه'},{id:'spirit',label:'الروحانية'},{id:'env',label:'البيئة المحيطة'}];
+const DEFAULT_ROUTINE = {
+  morning:[{id:'m1',text:'شرب كوب ماء'},{id:'m2',text:'تمدد بسيط'},{id:'m3',text:'كتابة 3 أولويات لليوم'}],
+  evening:[{id:'e1',text:'تقييم سريع لليوم'},{id:'e2',text:'إطفاء الشاشات قبل النوم بوقت'},{id:'e3',text:'كتابة شيء ممتن له'}],
+};
+
+/* ===== Navigation ===== */
+const TAB_SCREENS = {home:1, tools:1, settings:1};
+const SCREEN_TITLES = {home:'آفاق', tools:'الأدوات', settings:'الإعدادات', 'daily-tip':'نصيحة اليوم', mood:'مؤشر اليوم', breathing:'تمرين التنفس', reflection:'سؤال للتأمل', gratitude:'دفتر الامتنان', challenge:'تحدي صغير', wheel:'عجلة الحياة', pomodoro:'مؤقت التركيز', water:'متتبع الماء', habit:'لوحة العادات', matrix:'مصفوفة الأولويات', routine:'روتين يومي', journal:'المفكرة اليومية', achievements:'إنجازاتك'};
 let navStack = ['home'];
 
 function showScreen(name){
-  document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.screen').forEach(el=>el.classList.remove('active'));
   document.getElementById('screen-'+name).classList.add('active');
-  const isTopLevel = !!TAB_SCREENS[name];
-  document.getElementById('backBtn').style.visibility = isTopLevel ? 'hidden' : 'visible';
-  document.getElementById('bottomNav').style.display = isTopLevel ? 'flex' : 'none';
+  document.getElementById('screenTitle').textContent = SCREEN_TITLES[name] || 'آفاق';
+  const top = !!TAB_SCREENS[name];
+  document.getElementById('backBtn').style.visibility = top ? 'hidden' : 'visible';
+  document.getElementById('bottomNav').style.display = top ? 'flex' : 'none';
   window.scrollTo(0,0);
+  if(name!=='breathing') resetBreathingUI();
+  if(name!=='pomodoro'){ /* keep pomodoro running in background state, ring persists via vars */ }
 }
-
 function go(name){
-  navStack.push(name);
-  showScreen(name);
-  if(name === 'daily-tip') renderDailyTipEntry();
-  if(name === 'mood') renderMood();
-  if(name === 'reflection') renderReflection();
-  if(name === 'habit') renderHabit();
-  if(name === 'gratitude') renderGratitude();
-  if(name === 'lifewheel') loadWheelData();
-  if(name === 'breathing') resetBreathingUI();
-  if(name === 'pomodoro') resetPomodoro();
+  navStack.push(name); showScreen(name);
+  const renderers = {'daily-tip':renderDailyTipEntry, mood:renderMood, reflection:renderReflection, gratitude:renderGratitude, wheel:renderWheel, pomodoro:renderPomodoro, water:renderWater, habit:renderHabitScreen, matrix:renderMatrix, routine:renderRoutine, journal:renderJournal, achievements:renderAchievements};
+  if(renderers[name]) renderers[name]();
 }
+function goBack(){ if(navStack.length>1){ navStack.pop(); showScreen(navStack[navStack.length-1]); } }
+function goTab(tab){ navStack=[tab]; showScreen(tab); document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active', b.dataset.tab===tab)); if(tab==='home') renderHome(); }
 
-function goBack(){
-  if(navStack.length > 1){
-    navStack.pop();
-    showScreen(navStack[navStack.length-1]);
-  }
-}
-
-function goTab(tab){
-  navStack = [tab];
-  showScreen(tab);
-  document.querySelectorAll('.nav-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
-  if(tab === 'home') renderHome();
-}
-
-/* ===== رسائل التنبيه (Toast) ===== */
 let toastTimer;
-function showToast(msg){
-  const t = document.getElementById('toast');
-  t.textContent = msg; t.classList.add('show');
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(()=> t.classList.remove('show'), 2500);
-}
+function showToast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.classList.remove('show'),2200); }
 
-/* ===== الإعدادات والمظهر ===== */
+/* ===== Theme ===== */
 function applyTheme(mode){
-  document.documentElement.setAttribute('data-theme', mode === 'dark' ? 'dark' : 'light');
-  document.getElementById('darkToggle').checked = mode === 'dark';
+  document.documentElement.setAttribute('data-theme', mode==='dark'?'dark':'light');
+  document.getElementById('darkToggle').checked = mode==='dark';
   setData(K.THEME, mode);
+  if(document.getElementById('screen-wheel').classList.contains('active')) drawRadar(getWheelValues());
 }
-function toggleTheme(){
-  const current = getData(K.THEME, 'light');
-  applyTheme(current === 'dark' ? 'light' : 'dark');
-}
+function toggleTheme(){ applyTheme(getData(K.THEME,'light')==='dark' ? 'light':'dark'); }
+function showLegal(){ document.getElementById('legalText').style.display='block'; document.getElementById('legalBtn').style.display='none'; }
 function clearAllData(){
-  if(confirm('تحذير: سيتم مسح كل العادات والمذكرات وتقييمات العجلة المحفوظة! هل أنت متأكد؟')){
-    Object.values(K).forEach(k => { if(k !== K.THEME) localStorage.removeItem(k); });
-    showToast('تم تصفير جميع البيانات بنجاح 🧹');
-    renderHome();
+  if(confirm('سيتم حذف كل بياناتك المحفوظة على هذا الجهاز. هل أنت متأكد؟')){
+    Object.values(K).forEach(k=>{ if(k!==K.THEME) localStorage.removeItem(k); });
+    showToast('تم مسح جميع البيانات المحلية'); renderHome();
   }
 }
 
-/* ===== الرئيسية ===== */
+/* ===== Home ===== */
 function renderHome(){
-  // نصيحة سريعة
-  const dayIndex = new Date().getDate() % DAILY_TIPS.length;
-  document.getElementById('home-tip-text').textContent = DAILY_TIPS[dayIndex];
-  
-  // رسم عجلة الحياة المصغرة في الرئيسية
-  const wheelData = getData(K.LIFEWHEEL, {health:5, work:5, family:5, growth:5, spirit:5});
-  const wheelLabels = {health:'الصحة', work:'العمل', family:'العائلة', growth:'التطور', spirit:'الروح'};
-  let barsHTML = '';
-  for(let key in wheelData){
-    let height = (wheelData[key] / 10) * 100;
-    barsHTML += `
-      <div class="wheel-bar-col">
-        <div class="wheel-bar" style="height:${height}%"></div>
-        <div class="wheel-label">${wheelLabels[key]}</div>
-      </div>
-    `;
-  }
-  document.getElementById('homeLifeWheel').innerHTML = barsHTML;
+  document.getElementById('home-tip-text').textContent = DAILY_TIPS[new Date().getDate()%DAILY_TIPS.length];
+  const habits = getData(K.HABITS_SEL, []);
+  const prog = getData(K.HABIT_PROG, {});
+  let total=0, done=0;
+  habits.forEach(h=>{ total+=7; const days = (prog[h]&&prog[h].days)||{}; done += Object.keys(days).filter(d=>days[d]).length; });
+  const count = total>0 ? Math.round((done/total)*7) : 0;
+  document.getElementById('home-progress-text').textContent = habits.length? `${done}/${total} إنجاز هذا الأسبوع` : 'لم تختر عادات بعد';
+  document.getElementById('home-progress-fill').style.width = total>0 ? (done/total*100)+'%' : '0%';
 }
 
-/* ===== نصيحة اليوم ===== */
-let currentTip = null;
-function renderDailyTipEntry(){
-  document.getElementById('tipCardInner').innerHTML = '<div class="flip-icon">✉️</div><p style="margin:0; font-size:20px; font-weight:700;">اضغط لاكتشاف الرسالة</p>';
-  document.getElementById('tipActions').style.display = 'none';
-  currentTip = null;
-  renderSavedTips();
-}
-function revealTip(){
-  if(!currentTip) currentTip = pickRandom(DAILY_TIPS);
-  document.getElementById('tipCardInner').innerHTML = `<div class="flip-icon">💡</div><p style="margin:0; font-size:18px; line-height:1.6; padding:0 15px;">${currentTip}</p>`;
-  document.getElementById('tipActions').style.display = 'flex';
-}
-function newTip(){ revealTip(); currentTip = pickRandom(DAILY_TIPS, currentTip); revealTip(); }
-function saveTip(){
-  const saved = getData(K.SAVED_TIPS, []);
-  if(saved.includes(currentTip)){ showToast('تم حفظها مسبقاً!'); return; }
-  saved.push(currentTip); setData(K.SAVED_TIPS, saved);
-  showToast('تم حفظ الرسالة 💌'); renderSavedTips();
-}
-function renderSavedTips(){
-  const saved = getData(K.SAVED_TIPS, []);
-  const wrap = document.getElementById('savedTipsWrap');
-  if(saved.length === 0){ wrap.innerHTML = ''; return; }
-  wrap.innerHTML = `<p class="muted" style="margin-bottom:10px; font-weight:700;">رسائلك المحفوظة (${saved.length})</p>` +
-    saved.slice(-4).reverse().map(t => `<div class="entry-item">${t}</div>`).join('');
-}
+/* ===== Daily tip ===== */
+let currentTip=null;
+function renderDailyTipEntry(){ document.getElementById('tipCardInner').innerHTML='<div class="flip-icon">✨</div><p style="margin:0;">اكتشف نصيحة اليوم</p>'; document.getElementById('tipActions').style.display='none'; currentTip=null; renderSavedTips(); }
+function revealTip(){ if(!currentTip) currentTip=pickRandom(DAILY_TIPS); document.getElementById('tipCardInner').innerHTML=`<div class="flip-icon">🌿</div><p class="serif" style="margin:0; font-size:18px;">${currentTip}</p>`; document.getElementById('tipActions').style.display='flex'; }
+function newTip(){ currentTip=pickRandom(DAILY_TIPS,currentTip); document.getElementById('tipCardInner').innerHTML=`<div class="flip-icon">🌿</div><p class="serif" style="margin:0; font-size:18px;">${currentTip}</p>`; }
+function saveTip(){ const s=getData(K.SAVED_TIPS,[]); if(s.includes(currentTip)){ showToast('محفوظة بالفعل'); return; } s.push(currentTip); setData(K.SAVED_TIPS,s); showToast('تم حفظ النصيحة'); renderSavedTips(); }
+function shareTip(){ const text=currentTip+'\n\nمن تطبيق آفاق'; if(navigator.share){ navigator.share({text}).catch(()=>{}); } else { navigator.clipboard?.writeText(text); showToast('تم نسخ النصيحة'); } }
+function renderSavedTips(){ const s=getData(K.SAVED_TIPS,[]); const w=document.getElementById('savedTipsWrap'); if(!s.length){ w.innerHTML=''; return; } w.innerHTML=`<p class="muted" style="margin:18px 0 8px;">نصائحك المحفوظة (${s.length})</p>`+s.slice(-3).reverse().map(t=>`<div class="entry-item">${t}</div>`).join(''); }
 
-/* ===== المزاج ===== */
+/* ===== Mood ===== */
 function renderMood(){
-  const grid = document.getElementById('moodGrid');
-  grid.innerHTML = MOODS.map(m => `<div class="mood-item" id="mood-${m.id}" onclick="selectMood('${m.id}')"><span class="emoji">${m.emoji}</span><span style="font-weight:700;">${m.label}</span></div>`).join('');
-  document.getElementById('moodAdviceCard').style.display = 'none';
+  const grid=document.getElementById('moodGrid');
+  grid.innerHTML = MOODS.map(m=>`<div class="mood-item" id="mood-${m.id}" onclick="selectMood('${m.id}')"><span class="emoji">${m.emoji}</span><span>${m.label}</span></div>`).join('');
+  document.getElementById('moodAdviceCard').style.display='none';
+  renderMoodHistory();
 }
 function selectMood(id){
-  MOODS.forEach(m => document.getElementById('mood-'+m.id).classList.toggle('selected', m.id === id));
-  const mood = MOODS.find(m => m.id === id);
+  MOODS.forEach(m=>document.getElementById('mood-'+m.id).classList.toggle('selected', m.id===id));
+  const mood = MOODS.find(m=>m.id===id);
   document.getElementById('moodAdviceText').textContent = mood.advice;
-  document.getElementById('moodAdviceCard').style.display = 'block';
-  document.getElementById('moodAdviceCard').scrollIntoView({behavior: 'smooth', block: 'end'});
+  document.getElementById('moodAdviceCard').style.display='block';
+  const hist = getData(K.MOOD_HISTORY, {});
+  hist[todayKey()] = id;
+  setData(K.MOOD_HISTORY, hist);
+  renderMoodHistory();
+}
+function renderMoodHistory(){
+  const hist = getData(K.MOOD_HISTORY, {});
+  let html = '<p class="muted" style="margin:18px 0 8px;">آخر 7 أيام</p><div style="display:flex; gap:8px; justify-content:space-between;">';
+  for(let i=6;i>=0;i--){
+    const key = dateKeyOffset(i);
+    const moodId = hist[key];
+    const m = MOODS.find(mm=>mm.id===moodId);
+    html += `<div style="text-align:center; flex:1;"><div style="font-size:18px;">${m?m.emoji:'·'}</div><div style="font-size:9px; color:var(--text-secondary);">${dayLabel(i)}</div></div>`;
+  }
+  html += '</div>';
+  document.getElementById('moodHistoryWrap').innerHTML = html;
 }
 
-/* ===== التنفس (4-7-8) ===== */
-let breathTimer;
-let breathStep = 0;
+/* ===== Breathing ===== */
+let breathingActive=false, breathingTimers=[], breathDurationSec=60;
+function setBreathDuration(sec, btn){
+  breathDurationSec = sec;
+  document.querySelectorAll('#breathDurationChips .btn-chip').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  const label = sec===60?'دقيقة واحدة':(sec/60)+' دقائق';
+  document.getElementById('breathDurationLabel').textContent = 'مدة التمرين: '+label;
+  resetBreathingUI();
+}
 function resetBreathingUI(){
-  clearInterval(breathTimer); breathStep = 0;
-  const c = document.getElementById('breathCircle'); const l = document.getElementById('breathLabel');
-  c.classList.remove('grow'); c.style.background = '';
-  l.textContent = 'جاهز؟'; document.getElementById('breathBtn').textContent = 'ابدأ التمرين';
+  breathingActive=false;
+  const c=document.getElementById('breathCircle'); if(c) c.classList.remove('grow');
+  const l=document.getElementById('breathLabel'); if(l) l.textContent='جاهز؟';
+  const b=document.getElementById('breathBtn'); if(b) b.textContent='ابدأ';
+  breathingTimers.forEach(t=>{ clearTimeout(t); clearInterval(t); });
+  breathingTimers=[];
 }
 function toggleBreathing(){
-  if(breathStep > 0){ resetBreathingUI(); return; }
-  breathStep = 1; document.getElementById('breathBtn').textContent = 'إيقاف التمرين';
-  const c = document.getElementById('breathCircle'); const l = document.getElementById('breathLabel');
-  
+  if(breathingActive){ resetBreathingUI(); return; }
+  breathingActive=true;
+  document.getElementById('breathBtn').textContent='إيقاف';
+  const circle=document.getElementById('breathCircle'), label=document.getElementById('breathLabel');
   function cycle(){
-    if(breathStep === 0) return;
-    // شهيق 4 ثوان
-    l.textContent = 'شهيق بعمق...'; c.classList.add('grow');
-    setTimeout(() => {
-      if(breathStep === 0) return;
-      // حبس النفس 7 ثوان
-      l.textContent = 'احبس أنفاسك'; c.style.background = 'linear-gradient(135deg, var(--danger), #D67A70)';
-      setTimeout(() => {
-        if(breathStep === 0) return;
-        // زفير 8 ثوان
-        l.textContent = 'زفير ببطء...'; c.classList.remove('grow'); c.style.background = 'linear-gradient(135deg, var(--primary), var(--primary-light))';
-        setTimeout(cycle, 8000);
-      }, 7000);
-    }, 4000);
+    if(!breathingActive) return;
+    label.textContent='شهيق'; circle.classList.add('grow');
+    breathingTimers.push(setTimeout(()=>{
+      if(!breathingActive) return;
+      label.textContent='زفير'; circle.classList.remove('grow');
+      breathingTimers.push(setTimeout(cycle,4000));
+    },4000));
   }
   cycle();
+  breathingTimers.push(setTimeout(()=>{ resetBreathingUI(); showToast('أحسنت! انتهى التمرين'); }, breathDurationSec*1000));
 }
 
-/* ===== بومودورو ===== */
-let pomoTime = 25 * 60; // 25 mins
-let pomoInterval;
-let isPomoRunning = false;
-let isPomoBreak = false;
+/* ===== Reflection ===== */
+let currentQuestion=null;
+function renderReflection(){ currentQuestion=pickRandom(REFLECTION_QUESTIONS); document.getElementById('reflectionQuestion').textContent=currentQuestion; document.getElementById('reflectionAnswer').value=''; }
+function newReflectionQuestion(){ currentQuestion=pickRandom(REFLECTION_QUESTIONS,currentQuestion); document.getElementById('reflectionQuestion').textContent=currentQuestion; document.getElementById('reflectionAnswer').value=''; }
+function saveReflection(){ const a=document.getElementById('reflectionAnswer').value.trim(); if(!a){ showToast('اكتب إجابتك أولًا'); return; } const list=getData(K.REFLECTIONS,[]); list.push({date:todayKey(), question:currentQuestion, answer:a}); setData(K.REFLECTIONS,list); showToast('تم حفظ إجابتك بنجاح'); document.getElementById('reflectionAnswer').value=''; }
 
-function updatePomoDisplay(){
-  const m = String(Math.floor(pomoTime / 60)).padStart(2, '0');
-  const s = String(pomoTime % 60).padStart(2, '0');
-  document.getElementById('pomoDisplay').textContent = `${m}:${s}`;
-}
-function resetPomodoro(){
-  clearInterval(pomoInterval);
-  isPomoRunning = false; isPomoBreak = false;
-  pomoTime = 25 * 60;
-  document.getElementById('pomoStatus').textContent = 'وقت التركيز 🎯';
-  document.getElementById('pomoStatus').style.color = 'var(--primary)';
-  document.getElementById('pomoStartBtn').textContent = 'ابدأ التركيز';
-  updatePomoDisplay();
-}
-function startPomodoro(){
-  if(isPomoRunning){
-    clearInterval(pomoInterval);
-    isPomoRunning = false;
-    document.getElementById('pomoStartBtn').textContent = 'استئناف';
-    return;
-  }
-  isPomoRunning = true;
-  document.getElementById('pomoStartBtn').textContent = 'إيقاف مؤقت';
-  pomoInterval = setInterval(() => {
-    pomoTime--;
-    updatePomoDisplay();
-    if(pomoTime <= 0){
-      clearInterval(pomoInterval);
-      isPomoRunning = false;
-      showToast('انتهى الوقت! 🔔');
-      if(!isPomoBreak){
-        isPomoBreak = true;
-        pomoTime = 5 * 60; // 5 min break
-        document.getElementById('pomoStatus').textContent = 'وقت الراحة ☕';
-        document.getElementById('pomoStatus').style.color = 'var(--accent)';
-        document.getElementById('pomoStartBtn').textContent = 'ابدأ الراحة';
-      } else {
-        resetPomodoro();
-      }
-      updatePomoDisplay();
-      if(navigator.vibrate) navigator.vibrate([500, 200, 500]);
-    }
-  }, 1000);
-}
-
-/* ===== الامتنان ===== */
+/* ===== Gratitude ===== */
 function renderGratitude(){
-  document.getElementById('gratitudeInput').value = '';
-  const list = getData(K.GRATITUDE, []);
-  const wrap = document.getElementById('gratitudeList');
-  if(list.length === 0){ wrap.innerHTML = '<p class="muted">لم تضف شيئاً بعد. ابدأ الآن!</p>'; return; }
-  wrap.innerHTML = list.slice().reverse().map(g => `
-    <div class="entry-item">
-      <div class="date">${g.date}</div>
-      <p style="margin:0; font-size:16px;">${g.text}</p>
-    </div>
-  `).join('');
+  document.getElementById('gratitudeInput').value='';
+  renderGratitudeEntries();
+  updateGratitudeStreak();
 }
 function saveGratitude(){
-  const text = document.getElementById('gratitudeInput').value.trim();
-  if(!text){ showToast('الرجاء كتابة شيء أولاً!'); return; }
-  const list = getData(K.GRATITUDE, []);
-  list.push({date: new Date().toLocaleDateString('ar-EG'), text});
-  setData(K.GRATITUDE, list);
-  showToast('تم الحفظ في برطمان الامتنان ✨');
-  renderGratitude();
+  const text=document.getElementById('gratitudeInput').value.trim();
+  if(!text){ showToast('اكتب امتنانك أولًا'); return; }
+  const list=getData(K.GRATITUDE,[]);
+  list.unshift({date:todayKey(), text});
+  setData(K.GRATITUDE,list);
+  document.getElementById('gratitudeInput').value='';
+  renderGratitudeEntries(); updateGratitudeStreak();
+  showToast('تم الحفظ، أحسنت 🌸');
+}
+function renderGratitudeEntries(){
+  const list=getData(K.GRATITUDE,[]);
+  const w=document.getElementById('gratitudeEntries');
+  if(!list.length){ w.innerHTML=''; return; }
+  w.innerHTML='<p class="muted" style="margin:14px 0 8px;">آخر التدوينات</p>'+list.slice(0,5).map(e=>`<div class="entry-item"><div class="date">${e.date}</div>${e.text}</div>`).join('');
+}
+function updateGratitudeStreak(){
+  const list=getData(K.GRATITUDE,[]);
+  const dates = new Set(list.map(e=>e.date));
+  let streak=0;
+  for(let i=0;i<365;i++){ if(dates.has(dateKeyOffset(i))) streak++; else break; }
+  document.getElementById('gratitudeStreak').textContent = `🔥 متتالية: ${streak} يوم`;
 }
 
-/* ===== التوكيدات ===== */
-let currentAff = null;
-function generateAffirmation(){
-  currentAff = pickRandom(AFFIRMATIONS, currentAff);
-  const el = document.getElementById('affirmationText');
-  el.style.opacity = '0';
-  setTimeout(()=>{
-    el.textContent = currentAff;
-    el.style.opacity = '1';
-    el.style.transition = 'opacity 0.4s ease';
-  }, 200);
-}
+/* ===== Challenge ===== */
+let currentChallenge=null;
+function rollChallenge(){ currentChallenge=pickRandom(CHALLENGES,currentChallenge); document.getElementById('challengeText').textContent=currentChallenge; document.getElementById('challengeCard').style.display='block'; document.getElementById('challengeBtn').textContent='🎲 تحدٍ آخر'; }
 
-/* ===== عجلة الحياة ===== */
-function loadWheelData(){
-  const data = getData(K.LIFEWHEEL, {health:5, work:5, family:5, growth:5, spirit:5});
-  document.getElementById('slHealth').value = data.health; document.getElementById('valHealth').textContent = data.health;
-  document.getElementById('slWork').value = data.work; document.getElementById('valWork').textContent = data.work;
-  document.getElementById('slFamily').value = data.family; document.getElementById('valFamily').textContent = data.family;
-  document.getElementById('slGrowth').value = data.growth; document.getElementById('valGrowth').textContent = data.growth;
-  document.getElementById('slSpirit').value = data.spirit; document.getElementById('valSpirit').textContent = data.spirit;
+/* ===== Wheel of life ===== */
+function getWheelValues(){ const saved=getData(K.WHEEL,{}); return WHEEL_AREAS.map(a=> saved[a.id]!==undefined ? saved[a.id] : 5); }
+function renderWheel(){
+  const saved=getData(K.WHEEL,{});
+  const wrap=document.getElementById('wheelSliders');
+  wrap.innerHTML = WHEEL_AREAS.map(a=>{
+    const val = saved[a.id]!==undefined ? saved[a.id] : 5;
+    return `<div class="slider-row"><div class="slider-label"><span>${a.label}</span><b id="val-${a.id}">${val}</b></div><input type="range" min="1" max="10" value="${val}" id="slider-${a.id}" oninput="onWheelSlide('${a.id}', this.value)"></div>`;
+  }).join('');
+  drawRadar(getWheelValues());
+  const savedDate = getData(K.WHEEL+'_date', null);
+  document.getElementById('wheelSavedNote').textContent = savedDate ? `آخر حفظ: ${savedDate}` : '';
 }
-function updateWheel(){
-  const keys = ['Health','Work','Family','Growth','Spirit'];
-  keys.forEach(k => document.getElementById('val'+k).textContent = document.getElementById('sl'+k).value);
-}
+function onWheelSlide(id, val){ document.getElementById('val-'+id).textContent=val; drawRadar(WHEEL_AREAS.map(a=> a.id===id ? Number(val) : Number(document.getElementById('slider-'+a.id).value))); }
 function saveWheel(){
-  const data = {
-    health: parseInt(document.getElementById('slHealth').value),
-    work: parseInt(document.getElementById('slWork').value),
-    family: parseInt(document.getElementById('slFamily').value),
-    growth: parseInt(document.getElementById('slGrowth').value),
-    spirit: parseInt(document.getElementById('slSpirit').value)
-  };
-  setData(K.LIFEWHEEL, data);
-  showToast('تم حفظ تقييم عجلة الحياة 🎯');
+  const values={};
+  WHEEL_AREAS.forEach(a=>{ values[a.id]=Number(document.getElementById('slider-'+a.id).value); });
+  setData(K.WHEEL, values);
+  setData(K.WHEEL+'_date', todayKey());
+  document.getElementById('wheelSavedNote').textContent = `آخر حفظ: ${todayKey()}`;
+  showToast('تم حفظ تقييمك');
+}
+function drawRadar(values){
+  const canvas=document.getElementById('radarCanvas'); if(!canvas) return;
+  const ctx=canvas.getContext('2d'); const w=canvas.width, h=canvas.height;
+  ctx.clearRect(0,0,w,h);
+  const cx=w/2, cy=h/2, radius=Math.min(w,h)/2-38, n=WHEEL_AREAS.length, step=(Math.PI*2)/n;
+  const styles=getComputedStyle(document.documentElement);
+  const gridColor=styles.getPropertyValue('--border').trim();
+  const textColor=styles.getPropertyValue('--text-secondary').trim();
+  const primaryColor=styles.getPropertyValue('--primary').trim();
+  const accentColor=styles.getPropertyValue('--accent').trim();
+  ctx.strokeStyle=gridColor; ctx.lineWidth=1;
+  for(let ring=1; ring<=4; ring++){
+    ctx.beginPath();
+    for(let i=0;i<=n;i++){ const a=-Math.PI/2+i*step; const r=radius*(ring/4); const x=cx+r*Math.cos(a), y=cy+r*Math.sin(a); if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y); }
+    ctx.stroke();
+  }
+  ctx.font='11px Tajawal'; ctx.fillStyle=textColor; ctx.textAlign='center'; ctx.textBaseline='middle';
+  for(let i=0;i<n;i++){
+    const a=-Math.PI/2+i*step; const x2=cx+radius*Math.cos(a), y2=cy+radius*Math.sin(a);
+    ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(x2,y2); ctx.strokeStyle=gridColor; ctx.stroke();
+    const lx=cx+(radius+22)*Math.cos(a), ly=cy+(radius+22)*Math.sin(a);
+    ctx.fillText(WHEEL_AREAS[i].label, lx, ly);
+  }
+  ctx.beginPath();
+  for(let i=0;i<=n;i++){ const idx=i%n; const a=-Math.PI/2+idx*step; const r=radius*(values[idx]/10); const x=cx+r*Math.cos(a), y=cy+r*Math.sin(a); if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y); }
+  ctx.closePath();
+  ctx.fillStyle = accentColor+'55';
+  ctx.fill();
+  ctx.strokeStyle=primaryColor; ctx.lineWidth=2.5; ctx.stroke();
 }
 
-/* ===== التأمل الذاتي ===== */
-let currentQuestion = null;
-function renderReflection(){
-  currentQuestion = pickRandom(REFLECTION_QUESTIONS);
-  document.getElementById('reflectionQuestion').textContent = currentQuestion;
-  document.getElementById('reflectionAnswer').value = '';
+/* ===== Pomodoro ===== */
+let pomoTotal=25*60, pomoRemaining=25*60, pomoRunning=false, pomoInterval=null, pomoMode='focus';
+function pomoTodayData(){
+  let d = getData(K.POMODORO, {date:todayKey(), sessions:0});
+  if(d.date !== todayKey()){ d = {date:todayKey(), sessions:0}; setData(K.POMODORO, d); }
+  return d;
 }
-function newReflectionQuestion(){ renderReflection(); }
-function saveReflection(){
-  const answer = document.getElementById('reflectionAnswer').value.trim();
-  if(!answer){ showToast('اكتب إجابتك لتستفيد من التمرين'); return; }
-  const list = getData(K.REFLECTIONS, []);
-  list.push({date: todayKey(), question: currentQuestion, answer});
-  setData(K.REFLECTIONS, list);
-  showToast('تم تدوين أفكارك بنجاح 📝');
-  document.getElementById('reflectionAnswer').value = '';
+function setPomoDuration(min, btn){
+  if(pomoRunning) return;
+  pomoTotal = min*60; pomoRemaining = pomoTotal; pomoMode='focus';
+  document.querySelectorAll('#pomoDurationChips .btn-chip').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  updatePomoUI();
 }
+function renderPomodoro(){
+  const d = pomoTodayData();
+  document.getElementById('pomoSessionsText').textContent = `جلسات اليوم: ${d.sessions}`;
+  updatePomoUI();
+}
+function updatePomoUI(){
+  const mins=String(Math.floor(pomoRemaining/60)).padStart(2,'0');
+  const secs=String(pomoRemaining%60).padStart(2,'0');
+  document.getElementById('pomoTime').textContent = `${mins}:${secs}`;
+  document.getElementById('pomoMode').textContent = pomoMode==='focus' ? 'تركيز' : 'راحة';
+  const progress = 1 - (pomoRemaining / (pomoMode==='focus'? pomoTotal : 5*60));
+  document.getElementById('pomoRing').style.setProperty('--deg', Math.max(0,Math.min(360, progress*360)));
+}
+function togglePomo(){
+  if(pomoRunning){ pomoRunning=false; clearInterval(pomoInterval); document.getElementById('pomoStartBtn').textContent='استئناف'; return; }
+  pomoRunning=true; document.getElementById('pomoStartBtn').textContent='إيقاف مؤقت';
+  pomoInterval = setInterval(()=>{
+    pomoRemaining--;
+    if(pomoRemaining<=0){
+      if(pomoMode==='focus'){
+        const d=pomoTodayData(); d.sessions++; setData(K.POMODORO,d);
+        document.getElementById('pomoSessionsText').textContent = `جلسات اليوم: ${d.sessions}`;
+        showToast('أحسنت! خذ استراحة 5 دقائق');
+        pomoMode='break'; pomoRemaining=5*60;
+      } else {
+        showToast('انتهت الراحة، جاهز لجلسة جديدة؟');
+        pomoMode='focus'; pomoRemaining=pomoTotal;
+        pomoRunning=false; clearInterval(pomoInterval); document.getElementById('pomoStartBtn').textContent='ابدأ';
+      }
+    }
+    updatePomoUI();
+  }, 1000);
+}
+function resetPomo(){ pomoRunning=false; clearInterval(pomoInterval); pomoMode='focus'; pomoRemaining=pomoTotal; document.getElementById('pomoStartBtn').textContent='ابدأ'; updatePomoUI(); }
 
-/* ===== متتبع العادات ===== */
-function renderHabit(){
-  const activeHabit = getData(K.HABIT, null);
-  if(!activeHabit){
-    document.getElementById('habitPicker').style.display = 'block';
-    document.getElementById('habitTracker').style.display = 'none';
-    const grid = document.getElementById('habitGrid');
-    grid.innerHTML = HABITS.map(h => `<div class="mood-item" style="width:calc(50% - 6px); padding:20px 10px;" onclick="selectHabit('${h.id}')"><span class="emoji">${h.emoji}</span><span style="font-weight:700; text-align:center;">${h.label}</span></div>`).join('');
-  } else {
-    document.getElementById('habitPicker').style.display = 'none';
-    document.getElementById('habitTracker').style.display = 'block';
-    const h = HABITS.find(x => x.id === activeHabit);
-    document.getElementById('habitCurrentLabel').textContent = `${h.emoji} ${h.label}`;
-    
-    const progress = getData(K.HABIT_PROGRESS, {count:0, lastDate:''});
-    const count = Math.min(progress.count, 7);
-    document.getElementById('habitCountText').textContent = `أنجزت: ${count} من 7 أيام`;
-    document.getElementById('habitProgressFill').style.width = (count/7*100)+'%';
+/* ===== Water ===== */
+function waterTodayData(){
+  let d = getData(K.WATER, {date:todayKey(), count:0});
+  if(d.date !== todayKey()){ d = {date:todayKey(), count:0}; setData(K.WATER, d); }
+  return d;
+}
+function renderWater(){
+  const d = waterTodayData();
+  document.getElementById('waterCountText').textContent = `${d.count}/8`;
+  const grid = document.getElementById('waterGrid');
+  grid.innerHTML='';
+  for(let i=0;i<8;i++){
+    const cup=document.createElement('div');
+    cup.className='water-cup'+(i<d.count?' filled':'');
+    cup.innerHTML='<div class="fill"></div>';
+    cup.onclick=()=>tapWaterCup(i);
+    grid.appendChild(cup);
   }
 }
-function selectHabit(id){ setData(K.HABIT, id); setData(K.HABIT_PROGRESS, {count:0, lastDate:''}); renderHabit(); }
-function changeHabit(){ setData(K.HABIT, null); renderHabit(); }
-function resetHabit(){ setData(K.HABIT_PROGRESS, {count:0, lastDate:''}); renderHabit(); }
-function markHabitToday(){
-  const p = getData(K.HABIT_PROGRESS, {count:0, lastDate:''});
-  const today = todayKey();
-  if(p.lastDate === today){ showToast('لقد سجلت إنجازك لهذا اليوم مسبقاً! 👏'); return; }
-  p.count++; p.lastDate = today; setData(K.HABIT_PROGRESS, p);
-  showToast('بطل! خطوة أخرى نحو النجاح 🏆'); renderHabit();
+function tapWaterCup(i){
+  const d = waterTodayData();
+  d.count = (i+1===d.count) ? i : i+1;
+  setData(K.WATER, d);
+  renderWater();
+  if(d.count>=8) showToast('رائع! أنجزت هدف الماء اليوم 💧');
 }
 
-/* ===== الإقلاع ===== */
-window.onload = () => {
+/* ===== Habit board ===== */
+function renderHabitScreen(){
+  const sel = getData(K.HABITS_SEL, []);
+  const pickWrap = document.getElementById('habitPickWrap');
+  pickWrap.innerHTML = HABITS.map(h=>{
+    const checked = sel.includes(h.id);
+    return `<div class="habit-pick-item ${checked?'checked':''}" onclick="toggleHabitSelection('${h.id}')"><div class="hp-check">${checked?'✓':''}</div><span>${h.emoji} ${h.label}</span></div>`;
+  }).join('');
+  renderHabitBoard();
+}
+function toggleHabitSelection(id){
+  let sel = getData(K.HABITS_SEL, []);
+  if(sel.includes(id)){ sel = sel.filter(x=>x!==id); }
+  else { if(sel.length>=5){ showToast('يمكنك اختيار 5 عادات كحد أقصى'); return; } sel.push(id); }
+  setData(K.HABITS_SEL, sel);
+  const prog = getData(K.HABIT_PROG, {});
+  if(!prog[id]) prog[id] = {days:{}};
+  setData(K.HABIT_PROG, prog);
+  renderHabitScreen();
+}
+function renderHabitBoard(){
+  const sel = getData(K.HABITS_SEL, []);
+  const prog = getData(K.HABIT_PROG, {});
+  const wrap = document.getElementById('habitBoardWrap');
+  if(!sel.length){ wrap.innerHTML='<p class="muted">اختر عادة واحدة على الأقل من القائمة أعلاه للبدء.</p>'; return; }
+  let html='';
+  sel.forEach(id=>{
+    const habit = HABITS.find(h=>h.id===id);
+    const days = (prog[id]&&prog[id].days) || {};
+    let cellsHtml='';
+    for(let i=6;i>=0;i--){
+      const key = dateKeyOffset(i);
+      const done = !!days[key];
+      const isToday = i===0;
+      cellsHtml += `<div class="hb-day ${done?'done':''} ${isToday?'today':''}" ${isToday?`onclick="toggleHabitDay('${id}')"`:''}>${done?'✓':dayLabel(i)}</div>`;
+    }
+    html += `<div class="habit-board-row"><div class="hb-label">${habit.emoji} ${habit.label}</div><div class="hb-days">${cellsHtml}</div></div>`;
+  });
+  wrap.innerHTML = html;
+}
+function toggleHabitDay(id){
+  const prog = getData(K.HABIT_PROG, {});
+  if(!prog[id]) prog[id]={days:{}};
+  const key = todayKey();
+  prog[id].days[key] = !prog[id].days[key];
+  setData(K.HABIT_PROG, prog);
+  renderHabitBoard();
+}
+
+/* ===== Eisenhower matrix ===== */
+function renderMatrix(){
+  const tasks = getData(K.MATRIX, []);
+  ['important','schedule','delegate','eliminate'].forEach(q=>{
+    const list = tasks.filter(t=>t.quadrant===q);
+    const el = document.getElementById('q-'+q);
+    el.innerHTML = list.length ? list.map(t=>`<div class="q-item ${t.done?'done':''}"><span onclick="toggleMatrixDone('${t.id}')">${t.text}</span><button onclick="deleteMatrixTask('${t.id}')">✕</button></div>`).join('') : '<p class="muted" style="font-size:11px;">لا مهام بعد</p>';
+  });
+}
+function addMatrixTask(quadrant){
+  const input = document.getElementById('matrixInput');
+  const text = input.value.trim();
+  if(!text){ showToast('اكتب المهمة أولًا'); return; }
+  const tasks = getData(K.MATRIX, []);
+  tasks.push({id:'t'+Date.now(), text, quadrant, done:false});
+  setData(K.MATRIX, tasks);
+  input.value='';
+  renderMatrix();
+}
+function toggleMatrixDone(id){ const tasks=getData(K.MATRIX,[]); const t=tasks.find(x=>x.id===id); if(t) t.done=!t.done; setData(K.MATRIX,tasks); renderMatrix(); }
+function deleteMatrixTask(id){ let tasks=getData(K.MATRIX,[]); tasks=tasks.filter(x=>x.id!==id); setData(K.MATRIX,tasks); renderMatrix(); }
+
+/* ===== Routine ===== */
+let routineTab='morning';
+function switchRoutineTab(tab){
+  routineTab=tab;
+  document.getElementById('routineTabMorning').classList.toggle('active', tab==='morning');
+  document.getElementById('routineTabEvening').classList.toggle('active', tab==='evening');
+  renderRoutine();
+}
+function getRoutineItems(){ let items=getData(K.ROUTINE_ITEMS,null); if(!items){ items=JSON.parse(JSON.stringify(DEFAULT_ROUTINE)); setData(K.ROUTINE_ITEMS,items); } return items; }
+function renderRoutine(){
+  const items = getRoutineItems()[routineTab];
+  const doneMap = getData(K.ROUTINE_DONE, {});
+  const todayDone = doneMap[todayKey()] || {};
+  const wrap = document.getElementById('routineList');
+  wrap.innerHTML = items.map(it=>{
+    const done = !!todayDone[it.id];
+    return `<div class="routine-item ${done?'done':''}"><div class="routine-check" onclick="toggleRoutineItem('${it.id}')">${done?'✓':''}</div><span class="rtext">${it.text}</span><button onclick="deleteRoutineItem('${it.id}')">✕</button></div>`;
+  }).join('') || '<p class="muted">لا عناصر بعد، أضف أول عنصر بالأسفل.</p>';
+}
+function toggleRoutineItem(id){
+  const doneMap = getData(K.ROUTINE_DONE, {});
+  const key = todayKey();
+  if(!doneMap[key]) doneMap[key]={};
+  doneMap[key][id] = !doneMap[key][id];
+  setData(K.ROUTINE_DONE, doneMap);
+  renderRoutine();
+}
+function addRoutineItem(){
+  const input = document.getElementById('routineInput');
+  const text = input.value.trim();
+  if(!text){ showToast('اكتب العنصر أولًا'); return; }
+  const items = getRoutineItems();
+  items[routineTab].push({id:'r'+Date.now(), text});
+  setData(K.ROUTINE_ITEMS, items);
+  input.value='';
+  renderRoutine();
+}
+function deleteRoutineItem(id){
+  const items = getRoutineItems();
+  items[routineTab] = items[routineTab].filter(it=>it.id!==id);
+  setData(K.ROUTINE_ITEMS, items);
+  renderRoutine();
+}
+
+/* ===== Journal ===== */
+function renderJournal(){ document.getElementById('journalDate').textContent=formatArabicDate(); document.getElementById('journalInput').value=''; renderJournalEntries(); }
+function saveJournal(){ const text=document.getElementById('journalInput').value.trim(); if(!text){ showToast('اكتب ملاحظتك أولًا'); return; } const list=getData(K.JOURNAL,[]); list.unshift({date:todayKey(), text}); setData(K.JOURNAL,list); document.getElementById('journalInput').value=''; renderJournalEntries(); }
+function renderJournalEntries(){ const list=getData(K.JOURNAL,[]); const w=document.getElementById('journalEntries'); if(!list.length){ w.innerHTML=''; return; } w.innerHTML='<p class="muted" style="margin:18px 0 8px;">آخر الملاحظات</p>'+list.slice(0,5).map(e=>`<div class="entry-item"><div class="date">${e.date}</div>${e.text}</div>`).join(''); }
+
+/* ===== Achievements ===== */
+function renderAchievements(){
+  const savedTips = getData(K.SAVED_TIPS, []);
+  const reflections = getData(K.REFLECTIONS, []);
+  const journal = getData(K.JOURNAL, []);
+  const gratitude = getData(K.GRATITUDE, []);
+  const habitsSel = getData(K.HABITS_SEL, []);
+  const habitProg = getData(K.HABIT_PROG, {});
+  const pomodoro = getData(K.POMODORO, {sessions:0});
+  const wheelSaved = !!getData(K.WHEEL, null);
+  const matrix = getData(K.MATRIX, []);
+  const gratitudeDates = new Set(gratitude.map(e=>e.date));
+  let gratitudeStreak=0; for(let i=0;i<365;i++){ if(gratitudeDates.has(dateKeyOffset(i))) gratitudeStreak++; else break; }
+  let maxHabitCount=0; habitsSel.forEach(id=>{ const days=(habitProg[id]&&habitProg[id].days)||{}; const c=Object.values(days).filter(Boolean).length; if(c>maxHabitCount) maxHabitCount=c; });
+
+  const badges = [
+    {icon:'🌱', title:'الخطوة الأولى', desc:'ابدأ رحلتك مع آفاق', unlocked: savedTips.length+reflections.length+journal.length+gratitude.length > 0},
+    {icon:'📚', title:'جامع الحكمة', desc:'احفظ 5 نصائح', unlocked: savedTips.length>=5},
+    {icon:'💭', title:'المتأمل', desc:'أجب على 5 أسئلة تأمل', unlocked: reflections.length>=5},
+    {icon:'🌸', title:'قلب شاكر', desc:'3 أيام امتنان متتالية', unlocked: gratitudeStreak>=3},
+    {icon:'🎯', title:'الرائي', desc:'احفظ تقييم عجلة الحياة', unlocked: wheelSaved},
+    {icon:'✅', title:'صاحب العادة', desc:'أنجز عادة 7 أيام كاملة', unlocked: maxHabitCount>=7},
+    {icon:'🗂️', title:'المنظّم', desc:'أضف 5 مهام في مصفوفة الأولويات', unlocked: matrix.length>=5},
+    {icon:'⏱️', title:'المركّز', desc:'أكمل 5 جلسات تركيز', unlocked: (pomodoro.sessions||0)>=5},
+    {icon:'📓', title:'الكاتب', desc:'دوّن 5 ملاحظات يومية', unlocked: journal.length>=5},
+  ];
+  document.getElementById('badgeGrid').innerHTML = badges.map(b=>`<div class="badge-card ${b.unlocked?'unlocked':''}"><div class="b-icon">${b.icon}</div><div class="b-title">${b.title}</div><div class="b-desc">${b.desc}</div></div>`).join('');
+}
+
+/* ===== Init ===== */
+(function init(){
   applyTheme(getData(K.THEME, 'light'));
-  renderHome();
-};
+  goTab('home');
+})();
 </script>
 </body>
 </html>
