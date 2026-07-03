@@ -4,6 +4,9 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <meta name="theme-color" content="#4A6760" />
+<link rel="icon" type="image/png" sizes="192x192" href="assets/icons/icon-192.png">
+<link rel="apple-touch-icon" href="assets/icons/icon-192.png">
+<link rel="manifest" href="manifest.webmanifest">
 <title>آفاق | تطوير الحياة</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -278,6 +281,49 @@
   .course-progress-banner .circle{width:54px;height:54px;border-radius:50%;background:rgba(255,255,255,.14);display:flex;align-items:center;justify-content:center;font-weight:800;font-family:'Cairo';}
   @media(max-width:380px){.focus-grid,.area-grid,.program-grid,.habit-loop{grid-template-columns:1fr;}}
 
+
+  /* ===== Language & Smart Notifications additions ===== */
+  .lang-btn{width:38px;height:38px;border-radius:50%;background:var(--surface);border:1px solid var(--border);box-shadow:var(--shadow-soft);color:var(--primary);font-weight:800;font-family:'Cairo',sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:12px;}
+  .lang-btn:active{transform:scale(.96)}
+  .smart-notify-card{border-right:4px solid var(--accent);}
+  .notify-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px;}
+  .notify-chip{border:1px solid var(--border);background:var(--bg);border-radius:12px;padding:10px;font-size:12px;font-weight:700;color:var(--text-secondary);display:flex;align-items:center;gap:7px;}
+  .notify-chip.active{background:var(--accent-soft);color:var(--primary);border-color:var(--accent);}
+  .notify-note{font-size:12px;line-height:1.65;color:var(--text-secondary);margin-top:10px;}
+  html[lang="en"] body{direction:ltr;text-align:left;}
+  html[lang="en"] .screen, html[lang="en"] .topbar, html[lang="en"] .bottom-nav{direction:ltr;}
+  html[lang="en"] .eyebrow::before{order:0;}
+  html[lang="en"] .section-heading::after{margin-left:8px;}
+  html[lang="en"] .card h3{direction:ltr;}
+
+
+  /* ===== Visible uploaded logo from assets/icons ===== */
+  .top-logo{
+    width:38px;
+    height:38px;
+    border-radius:12px;
+    object-fit:cover;
+    border:1px solid var(--border);
+    background:var(--surface);
+    box-shadow:var(--shadow-soft);
+    padding:2px;
+    flex-shrink:0;
+  }
+  .hero-logo{
+    width:58px;
+    height:58px;
+    border-radius:18px;
+    object-fit:cover;
+    background:rgba(255,255,255,0.18);
+    border:1px solid rgba(255,255,255,0.28);
+    padding:4px;
+    box-shadow:0 12px 28px -14px rgba(0,0,0,0.35);
+    margin-bottom:10px;
+    position:relative;
+    z-index:2;
+  }
+  [data-theme="dark"] .top-logo{background:#1E2622;}
+
   ::selection{ background:var(--accent-soft); }
 </style>
 </head>
@@ -327,13 +373,15 @@
 
   <div class="topbar" id="topbar">
     <div class="back-btn" id="backBtn" style="visibility:hidden;" onclick="goBack()"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div>
+    <img class="top-logo" id="topLogoImg" src="assets/icons/icon-192.png" alt="آفاق" onerror="this.style.display='none'">
     <div class="title" id="screenTitle">آفاق</div>
-    <div class="spacer"></div>
+    <button class="lang-btn" id="langToggleBtn" onclick="toggleLanguage()" aria-label="Change language">EN</button>
   </div>
 
   <!-- ===== HOME ===== -->
   <div class="screen" id="screen-home">
     <div class="hero-panel">
+      <img class="hero-logo" id="heroLogoImg" src="assets/icons/icon-512.png" alt="آفاق" onerror="this.style.display='none'">
       <p class="eyebrow">آفاق</p>
       <h1 class="hero-title">أهلًا بك في آفاق</h1>
       <p class="hero-sub">خطوة صغيرة اليوم تصنع فرقًا مع الوقت</p>
@@ -440,6 +488,31 @@
       <input type="time" id="reminderTime" value="20:00" onchange="saveReminderTime()">
       <p class="muted" style="margin-top:10px;">التذكير يعمل فقط أثناء فتح التطبيق بالمتصفح على هذا الجهاز. للحصول على تذكير حقيقي حتى لو التطبيق مغلق، لازم لاحقًا نشره كتطبيق مثبت فعليًا (بعد تحويله لـ APK).</p>
     </div>
+    
+    <div class="card smart-notify-card">
+      <h3><svg class="icon" viewBox="0 0 24 24"><use href="#i-bell"></use></svg> إشعارات ذكية خلال اليوم</h3>
+      <div class="settings-row" style="margin-bottom:12px;">
+        <p style="margin:0;" data-i18n="smart_notifications">تفعيل تذكيرات آفاق</p>
+        <label class="switch"><input type="checkbox" id="smartNotifyToggle" onchange="toggleSmartNotifications()"><span class="track"></span><span class="thumb"></span></label>
+      </div>
+      <div class="settings-row" style="margin-bottom:12px;">
+        <p style="margin:0;" data-i18n="notify_every">كل كم دقيقة؟</p>
+        <select id="smartNotifyInterval" onchange="saveSmartNotifyInterval()" style="width:120px;border:1px solid var(--border);border-radius:12px;padding:10px;background:var(--bg);color:var(--text-primary);font-family:'Tajawal'">
+          <option value="45">45</option>
+          <option value="60">60</option>
+          <option value="90" selected>90</option>
+          <option value="120">120</option>
+        </select>
+      </div>
+      <div class="notify-grid">
+        <div class="notify-chip active"><svg class="icon icon-sm" viewBox="0 0 24 24"><use href="#i-droplet"></use></svg> شرب الماء</div>
+        <div class="notify-chip active"><svg class="icon icon-sm" viewBox="0 0 24 24"><use href="#i-bubbles"></use></svg> التنفس</div>
+        <div class="notify-chip active"><svg class="icon icon-sm" viewBox="0 0 24 24"><use href="#i-sparkle"></use></svg> نصائح عشوائية</div>
+        <div class="notify-chip active"><svg class="icon icon-sm" viewBox="0 0 24 24"><use href="#i-check-circle"></use></svg> العادات</div>
+      </div>
+      <p class="notify-note" id="smartNotifyNote">ملاحظة: في نسخة الويب الحالية تعمل التذكيرات عندما يكون التطبيق مفتوحًا أو مثبتًا ومفتوحًا. للحصول على إشعارات حتى عند إغلاق التطبيق بالكامل نحتاج لاحقًا Push Notifications مع Backend أو إعدادات Android بعد التحويل.</p>
+    </div>
+
     <div class="card">
       <h3>التنويه القانوني</h3>
       <p id="legalText" style="display:none;">تطبيق آفاق مخصص لتطوير نمط الحياة، التأمل الذاتي، وبناء العادات اليومية. لا يقدم التطبيق تشخيصًا طبيًا أو علاجًا نفسيًا، ولا يغني عن استشارة مختص عند الحاجة.</p>
@@ -793,7 +866,7 @@ function go(name){
   if(renderers[name]) renderers[name]();
 }
 function goBack(){ if(navStack.length>1){ navStack.pop(); showScreen(navStack[navStack.length-1]); } }
-function goTab(tab){ navStack=[tab]; showScreen(tab); document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active', b.dataset.tab===tab)); if(tab==='home') renderHome(); }
+function goTab(tab){ navStack=[tab]; showScreen(tab); document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active', b.dataset.tab===tab)); if(tab==='home') renderHome(); setTimeout(translateVisibleScreen,0); }
 
 let toastTimer;
 function showToast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.classList.remove('show'),2200); }
@@ -1541,10 +1614,93 @@ function renderPrograms(){ const progress=getData(K.PROGRAMS,{}); document.getEl
 function openProgram(id){ const p=PROGRAMS_ADV.find(x=>x.id===id); const progress=getData(K.PROGRAMS,{}); if(!progress[id]) progress[id]={done:{},notes:{}}; const done=progress[id].done; const count=Object.values(done).filter(Boolean).length; document.getElementById('programDetails').innerHTML=`<div class="course-progress-banner"><div class="circle">${count}/14</div><div><h3 style="margin:0;">${p.title}</h3><p style="margin:3px 0 0;color:rgba(255,255,255,.78);">${p.source}</p></div></div>`+p.days.map((d,i)=>{const day=i+1; return `<div class="program-day ${done[day]?'done':''}"><div class="day-num">${day}</div><div class="text"><b>${d[0]}</b><p>${d[1]}</p><div class="action-step"><b>تمرين:</b> ${d[2]}</div><button class="btn ${done[day]?'btn-outline':'btn-primary'} btn-sm" style="margin-top:8px;" onclick="toggleProgramDay('${id}',${day})">${done[day]?'إلغاء الإنجاز':'تم إنجاز اليوم'}</button></div></div>`}).join(''); }
 function toggleProgramDay(id,day){ const progress=getData(K.PROGRAMS,{}); if(!progress[id]) progress[id]={done:{},notes:{}}; const was=!!progress[id].done[day]; progress[id].done[day]=!was; setData(K.PROGRAMS,progress); if(!was) reward(12); openProgram(id); renderPrograms(); }
 
+
+/* ===== Language toggle (Arabic/English) ===== */
+const LANG_TEXT={
+  ar:{app:'آفاق',home:'الرئيسية',tools:'الأدوات',settings:'الإعدادات',welcome:'أهلًا بك في آفاق',hero:'خطوة صغيرة اليوم تصنع فرقًا مع الوقت',tip:'نصيحة اليوم',read_more:'اقرأ المزيد',mood:'مؤشر اليوم',breath:'تمرين تنفس',water:'شرب الماء',progress:'تقدّمك هذا الأسبوع',stats:'تقدمك وإنجازاتك',smartNote:'ملاحظة: في نسخة الويب الحالية تعمل التذكيرات عندما يكون التطبيق مفتوحًا أو مثبتًا ومفتوحًا. للحصول على إشعارات حتى عند إغلاق التطبيق بالكامل نحتاج لاحقًا Push Notifications مع Backend أو إعدادات Android بعد التحويل.'},
+  en:{app:'Afaq',home:'Home',tools:'Tools',settings:'Settings',welcome:'Welcome to Afaq',hero:'One small step today can create a meaningful difference over time',tip:'Tip of the Day',read_more:'Read more',mood:'Daily Check-in',breath:'Breathing',water:'Water',progress:'Your progress this week',stats:'Your progress and achievements',smartNote:'Note: in the current web version, reminders work while the app is open or installed and open. To notify users when the app is fully closed, we will later need Push Notifications with a backend or native Android notification setup after conversion.'}
+};
+const PHRASE_TRANSLATIONS={
+  'آفاق':'Afaq','الرئيسية':'Home','الأدوات':'Tools','الإعدادات':'Settings','أهلًا بك في آفاق':'Welcome to Afaq','خطوة صغيرة اليوم تصنع فرقًا مع الوقت':'One small step today can create a meaningful difference over time','نصيحة اليوم':'Tip of the Day','اقرأ المزيد':'Read more','مؤشر اليوم':'Daily Check-in','تمرين تنفس':'Breathing','شرب الماء':'Water','تقدّمك هذا الأسبوع':'Your progress this week','تقدمك وإنجازاتك':'Your progress and achievements','إحصائياتك وشاراتك بمكان واحد':'Your stats and badges in one place','مجموعة أدوات لمساعدتك يومًا بعد يوم':'A set of daily tools to support your growth','الإلهام اليومي':'Daily inspiration','تحدي صغير':'Small challenge','الوعي الذاتي':'Self-awareness','عجلة الحياة':'Wheel of Life','سؤال للتأمل':'Reflection question','دفتر الامتنان':'Gratitude journal','الطاقة والتركيز':'Energy and focus','مؤقت التركيز':'Focus timer','متتبع الماء':'Water tracker','الإنتاجية والعادات':'Productivity and habits','لوحة العادات':'Habit board','مصفوفة الأولويات':'Priority matrix','روتين يومي':'Daily routine','المفكرة اليومية':'Daily journal','النمو طويل المدى':'Long-term growth','أهدافي':'My goals','المراجعة الأسبوعية':'Weekly review','قائمة القراءة':'Reading list','تقدمك':'Your progress','الإنجازات':'Achievements','الوضع الداكن':'Dark mode','تذكير يومي':'Daily reminder','تفعيل التذكير':'Enable reminder','إشعارات ذكية خلال اليوم':'Smart notifications during the day','تفعيل تذكيرات آفاق':'Enable Afaq reminders','كل كم دقيقة؟':'Every how many minutes?','التنويه القانوني':'Legal disclaimer','سياسة الخصوصية':'Privacy policy','البيانات المحلية':'Local data','عن التطبيق':'About the app','ابدأ':'Start','إيقاف مؤقت':'Pause','استئناف':'Resume','إعادة ضبط':'Reset','جلسات اليوم: 0':'Today sessions: 0','تركيز':'Focus','راحة':'Break','مكان إعلان لاحقًا':'Ad space later','مساحة إعلان هادئة لاحقًا':'Quiet ad space later','تم حفظ البداية (+20)':'Start saved (+20)','تم تفعيل التذكيرات الذكية':'Smart reminders enabled','تم إيقاف التذكيرات الذكية':'Smart reminders disabled'
+};
+function getLang(){return getData(K.LANG,'ar')||'ar';}
+function setLanguage(lang){
+  setData(K.LANG,lang); document.documentElement.lang=lang; document.documentElement.dir=lang==='ar'?'rtl':'ltr'; document.body.dir=document.documentElement.dir;
+  const btn=document.getElementById('langToggleBtn'); if(btn) btn.textContent=lang==='ar'?'EN':'AR';
+  translateVisibleScreen();
+}
+function toggleLanguage(){setLanguage(getLang()==='ar'?'en':'ar');}
+function translateVisibleScreen(){
+  if(getLang()==='ar') return;
+  const active=document.querySelector('.screen.active'); if(!active) return;
+  translateNode(active);
+  const title=document.getElementById('screenTitle'); if(title && PHRASE_TRANSLATIONS[title.textContent.trim()]) title.textContent=PHRASE_TRANSLATIONS[title.textContent.trim()];
+  document.querySelectorAll('.nav-btn').forEach(btn=>translateNode(btn));
+  const note=document.getElementById('smartNotifyNote'); if(note) note.textContent=LANG_TEXT.en.smartNote;
+}
+function translateNode(root){
+  const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,null); const nodes=[]; while(walker.nextNode()) nodes.push(walker.currentNode);
+  nodes.forEach(n=>{const s=n.nodeValue.trim(); if(PHRASE_TRANSLATIONS[s]) n.nodeValue=n.nodeValue.replace(s,PHRASE_TRANSLATIONS[s]);});
+}
+/* ===== Smart recurring notifications ===== */
+let smartNotifyTimer=null;
+const SMART_MESSAGES={
+  ar:[
+    {title:'تذكير ماء من آفاق',body:'اشرب كوب ماء وسجله في متتبع الماء.'},
+    {title:'دقيقة تنفس',body:'خذ 4 أنفاس بطيئة ثم عد ليومك بهدوء.'},
+    {title:'نصيحة عشوائية',body:'اختر خطوة صغيرة جدًا يمكنك تنفيذها الآن.'},
+    {title:'عادة اليوم',body:'افتح لوحة العادات وسجل خطوة واحدة.'},
+    {title:'تأمل قصير',body:'اكتب جملة واحدة: ما الذي نجح اليوم؟'},
+    {title:'استراحة تركيز',body:'ابتعد عن الشاشة دقيقة واحدة وأرخ كتفيك.'}
+  ],
+  en:[
+    {title:'Water reminder from Afaq',body:'Drink a glass of water and log it in the water tracker.'},
+    {title:'One-minute breathing',body:'Take 4 slow breaths, then return calmly to your day.'},
+    {title:'Random tip',body:'Choose one tiny action you can do right now.'},
+    {title:'Today habit',body:'Open the habit board and record one small step.'},
+    {title:'Quick reflection',body:'Write one sentence: what worked today?'},
+    {title:'Focus break',body:'Step away from the screen for one minute and relax your shoulders.'}
+  ]
+};
+function getSmartNotify(){return getData(K.SMART_NOTIFY,{enabled:false,interval:90,last:null,index:0});}
+function initSmartNotifications(){
+  const s=getSmartNotify();
+  const toggle=document.getElementById('smartNotifyToggle'); if(toggle) toggle.checked=!!s.enabled;
+  const interval=document.getElementById('smartNotifyInterval'); if(interval) interval.value=String(s.interval||90);
+  if(s.enabled) startSmartNotifyLoop();
+}
+function toggleSmartNotifications(){
+  const s=getSmartNotify(); s.enabled=!!document.getElementById('smartNotifyToggle').checked; setData(K.SMART_NOTIFY,s);
+  if(s.enabled){ requestNotificationPermission().then(()=>{startSmartNotifyLoop(); showToast(getLang()==='en'?'Smart reminders enabled':'تم تفعيل التذكيرات الذكية');}); }
+  else{ if(smartNotifyTimer) clearInterval(smartNotifyTimer); smartNotifyTimer=null; showToast(getLang()==='en'?'Smart reminders disabled':'تم إيقاف التذكيرات الذكية'); }
+}
+function saveSmartNotifyInterval(){ const s=getSmartNotify(); s.interval=Number(document.getElementById('smartNotifyInterval').value)||90; setData(K.SMART_NOTIFY,s); if(s.enabled) startSmartNotifyLoop(); }
+async function requestNotificationPermission(){ try{ if('Notification' in window && Notification.permission==='default') await Notification.requestPermission(); }catch(e){} }
+function startSmartNotifyLoop(){
+  if(smartNotifyTimer) clearInterval(smartNotifyTimer);
+  smartNotifyTimer=setInterval(checkSmartNotifyDue,60000);
+  checkSmartNotifyDue();
+}
+function checkSmartNotifyDue(){
+  const s=getSmartNotify(); if(!s.enabled) return;
+  const intervalMs=(s.interval||90)*60*1000; const now=Date.now();
+  if(!s.last || now-s.last>=intervalMs){ sendSmartNotification(); s.last=now; s.index=(s.index||0)+1; setData(K.SMART_NOTIFY,s); }
+}
+function sendSmartNotification(){
+  const lang=getLang(); const s=getSmartNotify(); const list=SMART_MESSAGES[lang]||SMART_MESSAGES.ar; const msg=list[(s.index||0)%list.length];
+  try{
+    if('Notification' in window && Notification.permission==='granted'){ new Notification(msg.title,{body:msg.body,icon:'assets/icon-192.png'}); }
+    else{ showToast(msg.title+' — '+msg.body); }
+    if(navigator.vibrate) navigator.vibrate([180,80,180]);
+  }catch(e){ showToast(msg.title+' — '+msg.body); }
+}
+
 /* ===== Init ===== */
 (function init(){
   applyTheme(getData(K.THEME, 'light'));
+  setLanguage(getData(K.LANG, 'ar'));
   initReminder();
+  initSmartNotifications();
   goTab('home');
 })();
 </script>
