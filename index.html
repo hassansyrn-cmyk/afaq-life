@@ -300,6 +300,62 @@
   .top-logo{ width:38px; height:38px; border-radius:12px; object-fit:cover; border:1px solid var(--border); background:var(--surface); box-shadow:var(--shadow-soft); padding:2px; flex-shrink:0; }
   .hero-logo{ width:58px; height:58px; border-radius:18px; object-fit:cover; background:rgba(255,255,255,0.18); border:1px solid rgba(255,255,255,0.28); padding:4px; box-shadow:0 12px 28px -14px rgba(0,0,0,0.35); margin-bottom:10px; position:relative; z-index:2; }
   [data-theme="dark"] .top-logo{background:#1E2622;}
+
+  /* ===== Header refinement: edge logo + luxury Afaq wordmark ===== */
+  .topbar{
+    justify-content:flex-start;
+    gap:10px;
+  }
+  .topbar .back-btn{
+    order:4;
+    margin-inline-start:4px;
+    flex-shrink:0;
+  }
+  .top-logo{
+    order:1;
+    width:42px;
+    height:42px;
+    border-radius:14px;
+    padding:2px;
+    object-fit:cover;
+    margin-inline-start:0;
+    margin-inline-end:8px;
+  }
+  .topbar .title{
+    order:2;
+    flex:1;
+    text-align:start;
+    font-family:'Amiri','Cairo',serif;
+    font-size:25px;
+    font-weight:700;
+    letter-spacing:.2px;
+    line-height:1;
+    color:var(--primary-dark);
+    text-shadow:0 1px 0 rgba(255,255,255,.35);
+  }
+  html[lang="en"] .topbar .title{
+    font-family:Georgia,'Times New Roman',serif;
+    font-size:23px;
+    font-style:italic;
+    font-weight:700;
+    letter-spacing:.4px;
+  }
+  .lang-btn{
+    order:3;
+    flex-shrink:0;
+    margin-inline-start:auto;
+  }
+  html[lang="ar"] .topbar{direction:rtl;}
+  html[lang="en"] .topbar{direction:ltr;}
+  html[lang="ar"] .top-logo{margin-right:0;margin-left:8px;}
+  html[lang="en"] .top-logo{margin-left:0;margin-right:8px;}
+  [data-theme="dark"] .topbar .title{color:var(--primary-dark);text-shadow:none;}
+  .privacy-open-btn{
+    margin-top:14px;
+    text-decoration:none;
+    width:100%;
+  }
+
   ::selection{ background:var(--accent-soft); }
 </style>
 </head>
@@ -347,7 +403,7 @@
 <div id="app">
 
   <div class="topbar" id="topbar">
-    <div class="back-btn" id="backBtn" style="visibility:hidden;" onclick="goBack()"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div>
+    <div class="back-btn" id="backBtn" style="display:none;" onclick="goBack()"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div>
     <img class="top-logo" id="topLogoImg" src="assets/icons/icon-192.png" alt="آفاق" onerror="this.style.display='none'">
     <div class="title" id="screenTitle" data-i18n="app_title">آفاق</div>
     <button class="lang-btn" id="langToggleBtn" onclick="toggleLanguage()" aria-label="Change language">EN</button>
@@ -492,7 +548,7 @@
       <p id="legalText" style="display:none;" data-i18n="legal_text">تطبيق آفاق مخصص لتطوير نمط الحياة، التأمل الذاتي، وبناء العادات اليومية. لا يقدم التطبيق تشخيصًا طبيًا أو علاجًا نفسيًا، ولا يغني عن استشارة مختص عند الحاجة.</p>
       <button class="btn btn-outline" id="legalBtn" onclick="showLegal()" data-i18n="show_disclaimer">عرض التنويه</button>
     </div>
-    <div class="card"><h3 data-i18n="privacy_policy">سياسة الخصوصية</h3><p class="muted" data-i18n="privacy_note">سيتم إضافة رابط سياسة الخصوصية هنا قبل النشر على المتجر. جميع بياناتك تُحفظ محليًا على جهازك فقط.</p></div>
+    <div class="card"><h3 data-i18n="privacy_policy">سياسة الخصوصية</h3><p class="muted" data-i18n="privacy_note">بياناتك تُحفظ محليًا على جهازك فقط، ويمكنك قراءة سياسة الخصوصية الكاملة من الزر أدناه.</p><a class="btn btn-outline privacy-open-btn" href="privacy.html" target="_blank" rel="noopener" data-i18n="open_privacy_policy">عرض سياسة الخصوصية الكاملة</a></div>
     <div class="card"><h3 data-i18n="local_data">البيانات المحلية</h3><p class="muted" style="margin-bottom:14px;" data-i18n="local_data_note">يمكنك مسح كل بيانات التطبيق المحفوظة على هذا الجهاز.</p><button class="btn btn-outline" onclick="clearAllData()" data-i18n="clear_data_btn">مسح البيانات المحلية</button></div>
     <div class="card"><h3 data-i18n="about_app">عن التطبيق</h3><p class="muted" data-i18n="app_version">آفاق | تطوير الحياة — الإصدار 3.0.0</p></div>
   </div>
@@ -836,7 +892,8 @@ const I18N_DICT = {
     smart_notifications_title: 'إشعارات ذكية خلال اليوم', smart_notifications: 'تفعيل تذكيرات آفاق', notify_every: 'كل كم دقيقة؟',
     random_tips: 'نصائح عشوائية', habits: 'العادات', smart_notify_note: 'ملاحظة: في نسخة الويب الحالية تعمل التذكيرات عندما يكون التطبيق مفتوحًا.',
     legal_disclaimer: 'التنويه القانوني', legal_text: 'تطبيق آفاق مخصص لتطوير نمط الحياة، ولا يقدم تشخيصًا طبيًا أو علاجًا نفسيًا.',
-    show_disclaimer: 'عرض التنويه', privacy_policy: 'سياسة الخصوصية', privacy_note: 'بياناتك تُحفظ محليًا على جهازك فقط.',
+    show_disclaimer: 'عرض التنويه', privacy_policy: 'سياسة الخصوصية', privacy_note: 'بياناتك تُحفظ محليًا على جهازك فقط، ويمكنك قراءة سياسة الخصوصية الكاملة من الزر أدناه.',
+    open_privacy_policy: 'عرض سياسة الخصوصية الكاملة',
     local_data: 'البيانات المحلية', local_data_note: 'يمكنك مسح كل بيانات التطبيق المحفوظة على هذا الجهاز.',
     clear_data_btn: 'مسح البيانات المحلية', about_app: 'عن التطبيق', app_version: 'آفاق | تطوير الحياة — الإصدار 3.0.0',
     tip_card_sub: 'اضغط على البطاقة لاكتشاف نصيحة اليوم', discover_tip: 'اكتشف نصيحة اليوم', another_tip: 'نصيحة أخرى',
@@ -901,7 +958,8 @@ const I18N_DICT = {
     smart_notifications_title: 'Smart Notifications', smart_notifications: 'Enable Afaq Reminders', notify_every: 'Every X minutes?',
     random_tips: 'Random Tips', habits: 'Habits', smart_notify_note: 'Note: In current web version notifications work while app is running.',
     legal_disclaimer: 'Legal Disclaimer', legal_text: 'Afaq app is for lifestyle tracking and development, not medical diagnosis.',
-    show_disclaimer: 'Show Disclaimer', privacy_policy: 'Privacy Policy', privacy_note: 'All data is stored locally on your device.',
+    show_disclaimer: 'Show Disclaimer', privacy_policy: 'Privacy Policy', privacy_note: 'All data is stored locally on your device. You can read the full Privacy Policy using the button below.',
+    open_privacy_policy: 'Open Full Privacy Policy',
     local_data: 'Local Data', local_data_note: 'You can wipe all saved application data from this device completely.',
     clear_data_btn: 'Clear Local Data', about_app: 'About App', app_version: 'Afaq | Life Design — Version 3.0.0',
     tip_card_sub: 'Click the card to discover today\'s tip', discover_tip: 'Discover today\'s tip', another_tip: 'Another Tip',
@@ -1054,7 +1112,7 @@ function showScreen(name){
   document.getElementById('screenTitle').textContent = SCREEN_TITLES[currentL][name] || 'Afaq';
   
   const isTopLevel = (name === 'home' || name === 'tools' || name === 'settings');
-  document.getElementById('backBtn').style.visibility = isTopLevel ? 'hidden' : 'visible';
+  document.getElementById('backBtn').style.display = isTopLevel ? 'none' : 'flex';
   document.getElementById('bottomNav').style.display = isTopLevel ? 'flex' : 'none';
   window.scrollTo(0,0);
   if(name!=='breathing') resetBreathingUI();
