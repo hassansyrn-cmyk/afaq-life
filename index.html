@@ -2295,11 +2295,25 @@ window.addEventListener('DOMContentLoaded', () => {
   document.documentElement.lang = storedLang;
   document.documentElement.dir = storedLang === 'ar' ? 'rtl' : 'ltr';
   document.getElementById('langToggleBtn').textContent = storedLang === 'ar' ? 'EN' : 'AR';
-  
+
   applyTheme(getData(K.THEME, 'light'));
   initReminder();
-  renderHome();
-  translateVisibleScreen();
+
+  // إصلاح مشكلة الصفحة الفارغة عند أول فتح:
+  // كان الكود يرسم محتوى الرئيسية فقط بدون إضافة class active إلى الشاشة.
+  // goTab('home') يفعل الشاشة + يرسم الرئيسية + يضبط شريط التنقل والترجمة.
+  goTab('home');
+
+  // طبقة أمان إضافية لو حدث أي تأخير في المتصفح أو الكاش.
+  requestAnimationFrame(() => {
+    const homeScreen = document.getElementById('screen-home');
+    const hasActiveScreen = document.querySelector('.screen.active');
+    if(!hasActiveScreen && homeScreen){
+      homeScreen.classList.add('active');
+      renderHome();
+    }
+    translateVisibleScreen();
+  });
 });
 </script>
 </body>
