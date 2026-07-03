@@ -246,6 +246,38 @@
   .stars .star-btn{ cursor:pointer; color:var(--border); }
   .stars .star-btn.on{ color:var(--accent); }
 
+
+  /* ===== Advanced Afaq modules inspired by habit science and life design ===== */
+  .focus-grid,.area-grid,.program-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+  .focus-chip,.area-card,.program-card,.tip-lib-card,.custom-habit-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);padding:14px;box-shadow:var(--shadow-soft);}
+  .focus-chip{cursor:pointer;text-align:center;font-weight:700;color:var(--text-secondary);}
+  .focus-chip.active{background:var(--primary-grad);color:#fff;border-color:var(--primary);}
+  .area-card h4,.program-card h4,.tip-lib-card h4,.custom-habit-card h4{margin:0 0 6px;font-size:14px;display:flex;align-items:center;gap:6px;}
+  .area-score{font-family:'Cairo',sans-serif;font-size:22px;font-weight:800;color:var(--primary);}
+  .program-day{display:flex;align-items:flex-start;gap:10px;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);padding:11px;margin-bottom:8px;}
+  .program-day.done{background:var(--accent-soft);border-color:var(--accent);}
+  .program-day .day-num{width:28px;height:28px;border-radius:50%;background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;color:var(--primary);}
+  .program-day.done .day-num{background:var(--gold-grad);color:#3A2A16;}
+  .program-day div.text{flex:1;}
+  .program-day b{display:block;font-size:13px;margin-bottom:3px;}
+  .program-day p{font-size:12.5px;line-height:1.65;color:var(--text-secondary);}
+  .tip-filter-row{display:flex;gap:8px;overflow-x:auto;padding-bottom:8px;margin-bottom:12px;}
+  .tip-filter-row .btn-chip{white-space:nowrap;flex-shrink:0;}
+  .tip-lib-card p{font-size:13.5px;line-height:1.7;color:var(--text-secondary);margin-bottom:8px;}
+  .action-step{border-right:3px solid var(--accent);background:var(--bg);border-radius:var(--radius-sm);padding:9px 11px;font-size:13px;line-height:1.6;}
+  .habit-loop{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:10px 0;}
+  .loop-box{text-align:center;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 6px;}
+  .loop-box b{display:block;font-size:12px;margin-bottom:4px;color:var(--primary);}
+  .loop-box span{font-size:11px;color:var(--text-secondary);}
+  .custom-habit-row{display:flex;align-items:center;gap:8px;margin-top:10px;}
+  .custom-habit-row .btn{padding:9px 12px;font-size:12px;}
+  .mini-chart{display:flex;align-items:flex-end;gap:5px;height:72px;margin-top:10px;}
+  .mini-bar{flex:1;background:var(--accent-soft);border-radius:7px 7px 2px 2px;min-height:6px;position:relative;}
+  .mini-bar strong{position:absolute;bottom:100%;left:50%;transform:translateX(-50%);font-size:9px;color:var(--text-secondary);margin-bottom:3px;}
+  .course-progress-banner{display:flex;align-items:center;gap:12px;background:var(--primary-grad);color:#fff;border-radius:var(--radius-lg);padding:16px;margin-bottom:14px;}
+  .course-progress-banner .circle{width:54px;height:54px;border-radius:50%;background:rgba(255,255,255,.14);display:flex;align-items:center;justify-content:center;font-weight:800;font-family:'Cairo';}
+  @media(max-width:380px){.focus-grid,.area-grid,.program-grid,.habit-loop{grid-template-columns:1fr;}}
+
   ::selection{ background:var(--accent-soft); }
 </style>
 </head>
@@ -377,6 +409,13 @@
     <div class="tool-row" onclick="go('goals')"><div class="tool-icon"><svg class="icon" viewBox="0 0 24 24"><use href="#i-flag"></use></svg></div><div class="tool-text"><h4>أهدافي</h4><span>أهداف كبيرة مقسّمة لخطوات</span></div><div class="chev">‹</div></div>
     <div class="tool-row" onclick="go('weekly')"><div class="tool-icon"><svg class="icon" viewBox="0 0 24 24"><use href="#i-calendar"></use></svg></div><div class="tool-text"><h4>المراجعة الأسبوعية</h4><span>وقفة أسبوعية مع نفسك</span></div><div class="chev">‹</div></div>
     <div class="tool-row" onclick="go('reading')"><div class="tool-icon"><svg class="icon" viewBox="0 0 24 24"><use href="#i-book-open"></use></svg></div><div class="tool-text"><h4>قائمة القراءة</h4><span>تابع كتب تطوير الذات</span></div><div class="chev">‹</div></div>
+
+
+    <div class="tool-row" onclick="go('onboarding')"><div class="tool-icon"><svg class="icon" viewBox="0 0 24 24"><use href="#i-compass"></use></svg></div><div class="tool-text"><h4>تهيئة تجربتك</h4><span>اختر مجالاتك وأول هدف لك</span></div><div class="chev">‹</div></div>
+    <div class="tool-row" onclick="go('habit-builder')"><div class="tool-icon"><svg class="icon" viewBox="0 0 24 24"><use href="#i-list-check"></use></svg></div><div class="tool-text"><h4>بناء عادة مخصصة</h4><span>حلقة العادة: محفز، فعل، مكافأة</span></div><div class="chev">‹</div></div>
+    <div class="tool-row" onclick="go('life-areas')"><div class="tool-icon"><svg class="icon" viewBox="0 0 24 24"><use href="#i-target"></use></svg></div><div class="tool-text"><h4>مجالات الحياة</h4><span>تقييم شامل للمجالات الأساسية</span></div><div class="chev">‹</div></div>
+    <div class="tool-row" onclick="go('tips-library')"><div class="tool-icon"><svg class="icon" viewBox="0 0 24 24"><use href="#i-book-open"></use></svg></div><div class="tool-text"><h4>مكتبة النصائح</h4><span>30+ نصيحة عملية حسب التصنيف</span></div><div class="chev">‹</div></div>
+    <div class="tool-row" onclick="go('programs')"><div class="tool-icon"><svg class="icon" viewBox="0 0 24 24"><use href="#i-calendar"></use></svg></div><div class="tool-text"><h4>برامج 14 يوم</h4><span>مسارات مصغرة للعادات والتركيز</span></div><div class="chev">‹</div></div>
 
     <div class="section-heading">تقدمك</div>
     <div class="tool-row" onclick="go('stats')"><div class="tool-icon"><svg class="icon" viewBox="0 0 24 24"><use href="#i-trending"></use></svg></div><div class="tool-text"><h4>إحصائياتك</h4><span>نظرة شاملة على نشاطك</span></div><div class="chev">‹</div></div>
@@ -611,6 +650,54 @@
     <div id="booksList"></div>
   </div>
 
+
+  <!-- ===== ONBOARDING ===== -->
+  <div class="screen" id="screen-onboarding">
+    <h1 class="hero-title">تهيئة تجربتك</h1>
+    <p class="hero-sub">اختر المجالات التي تريد تطويرها أولًا، وسنحوّلها إلى خطوات يومية.</p>
+    <div class="focus-grid" id="onboardingFocusGrid"></div>
+    <div class="card">
+      <h3>هدفك الأول</h3>
+      <input type="text" id="onboardingGoal" placeholder="مثال: أريد بناء روتين صباحي ثابت" style="margin-bottom:10px;">
+      <button class="btn btn-primary btn-block" onclick="saveOnboarding()">حفظ البداية</button>
+    </div>
+  </div>
+  <!-- ===== CUSTOM HABIT BUILDER ===== -->
+  <div class="screen" id="screen-habit-builder">
+    <h1 class="hero-title">بناء عادة مخصصة</h1>
+    <p class="hero-sub">صمّم عادتك وفق حلقة العادة: محفز → فعل → مكافأة.</p>
+    <div class="card">
+      <input type="text" id="customHabitName" placeholder="اسم العادة الجديدة" style="margin-bottom:8px;">
+      <input type="text" id="customHabitCategory" placeholder="التصنيف: صحة، تركيز، علاقات..." style="margin-bottom:8px;">
+      <input type="text" id="customHabitCue" placeholder="المحفز: بعد القهوة، بعد الصلاة، بعد إغلاق اللابتوب..." style="margin-bottom:8px;">
+      <input type="text" id="customHabitReward" placeholder="المكافأة: علامة إنجاز، كوب قهوة، استراحة قصيرة..." style="margin-bottom:10px;">
+      <button class="btn btn-primary btn-block" onclick="addCustomHabit()">إضافة العادة</button>
+    </div>
+    <div class="habit-loop"><div class="loop-box"><b>المحفز</b><span>متى تبدأ؟</span></div><div class="loop-box"><b>الفعل</b><span>ما الخطوة؟</span></div><div class="loop-box"><b>المكافأة</b><span>ما الشعور؟</span></div></div>
+    <div id="customHabitsList"></div>
+  </div>
+  <!-- ===== LIFE AREAS ===== -->
+  <div class="screen" id="screen-life-areas">
+    <h1 class="hero-title">مجالات الحياة</h1>
+    <p class="hero-sub">قيّم أهم مجالات حياتك، ثم اختر مجالًا واحدًا للتحسين هذا الأسبوع.</p>
+    <div class="area-grid" id="lifeAreasGrid"></div>
+    <button class="btn btn-primary btn-block" onclick="saveLifeAreas()">حفظ التقييم</button>
+  </div>
+  <!-- ===== TIPS LIBRARY ===== -->
+  <div class="screen" id="screen-tips-library">
+    <h1 class="hero-title">مكتبة النصائح</h1>
+    <p class="hero-sub">نصائح عملية منظمة حسب مجالات التطوير.</p>
+    <div class="tip-filter-row" id="tipsFilterRow"></div>
+    <div id="tipsLibraryList"></div>
+  </div>
+  <!-- ===== MICRO COURSES ===== -->
+  <div class="screen" id="screen-programs">
+    <h1 class="hero-title">برامج 14 يوم</h1>
+    <p class="hero-sub">تحديات قصيرة تحوّل مفاهيم الكتب إلى تطبيق يومي.</p>
+    <div class="program-grid" id="programCards"></div>
+    <div id="programDetails"></div>
+  </div>
+
   <!-- ===== STATS DASHBOARD ===== -->
   <div class="screen" id="screen-stats">
     <h1 class="hero-title">إحصائياتك</h1>
@@ -687,7 +774,7 @@ const BOOK_SUGGESTIONS = ['العادات الذرية','قوة العادات',
 
 /* ===== Navigation ===== */
 const TAB_SCREENS = {home:1, tools:1, settings:1};
-const SCREEN_TITLES = {home:'آفاق', tools:'الأدوات', settings:'الإعدادات', 'daily-tip':'نصيحة اليوم', affirmations:'التأكيدات اليومية', mood:'مؤشر اليوم', breathing:'تمرين التنفس', reflection:'سؤال للتأمل', gratitude:'دفتر الامتنان', challenge:'تحدي صغير', wheel:'عجلة الحياة', pomodoro:'مؤقت التركيز', water:'متتبع الماء', habit:'لوحة العادات', matrix:'مصفوفة الأولويات', routine:'روتين يومي', journal:'المفكرة اليومية', goals:'أهدافي', weekly:'المراجعة الأسبوعية', reading:'قائمة القراءة', stats:'إحصائياتك', achievements:'إنجازاتك'};
+const SCREEN_TITLES = {home:'آفاق', tools:'الأدوات', settings:'الإعدادات', 'daily-tip':'نصيحة اليوم', affirmations:'التأكيدات اليومية', mood:'مؤشر اليوم', breathing:'تمرين التنفس', reflection:'سؤال للتأمل', gratitude:'دفتر الامتنان', challenge:'تحدي صغير', wheel:'عجلة الحياة', pomodoro:'مؤقت التركيز', water:'متتبع الماء', habit:'لوحة العادات', matrix:'مصفوفة الأولويات', routine:'روتين يومي', journal:'المفكرة اليومية', goals:'أهدافي', weekly:'المراجعة الأسبوعية', reading:'قائمة القراءة', stats:'إحصائياتك', achievements:'إنجازاتك', onboarding:'تهيئة تجربتك', 'habit-builder':'بناء عادة مخصصة', 'life-areas':'مجالات الحياة', 'tips-library':'مكتبة النصائح', programs:'برامج 14 يوم'};
 let navStack = ['home'];
 
 function showScreen(name){
@@ -702,7 +789,7 @@ function showScreen(name){
 }
 function go(name){
   navStack.push(name); showScreen(name);
-  const renderers = {'daily-tip':renderDailyTipEntry, affirmations:renderAffirmations, mood:renderMood, reflection:renderReflection, gratitude:renderGratitude, wheel:renderWheel, pomodoro:renderPomodoro, water:renderWater, habit:renderHabitScreen, matrix:renderMatrix, routine:renderRoutine, journal:renderJournal, goals:renderGoals, weekly:renderWeekly, reading:renderReading, stats:renderStats, achievements:renderAchievements};
+  const renderers = {'daily-tip':renderDailyTipEntry, affirmations:renderAffirmations, mood:renderMood, reflection:renderReflection, gratitude:renderGratitude, wheel:renderWheel, pomodoro:renderPomodoro, water:renderWater, habit:renderHabitScreen, matrix:renderMatrix, routine:renderRoutine, journal:renderJournal, goals:renderGoals, weekly:renderWeekly, reading:renderReading, stats:renderStats, achievements:renderAchievements, onboarding:renderOnboarding, 'habit-builder':renderHabitBuilder, 'life-areas':renderLifeAreas, 'tips-library':renderTipsLibrary, programs:renderPrograms};
   if(renderers[name]) renderers[name]();
 }
 function goBack(){ if(navStack.length>1){ navStack.pop(); showScreen(navStack[navStack.length-1]); } }
@@ -1357,6 +1444,102 @@ function renderAchievements(){
   ];
   document.getElementById('badgeGrid').innerHTML = badges.map(b=>`<div class="badge-card ${b.unlocked?'unlocked':''}"><div class="b-icon">${ic(b.icon,'icon-lg')}</div><div class="b-title">${b.title}</div><div class="b-desc">${b.desc}</div></div>`).join('');
 }
+
+
+/* ===== Advanced behavioral science modules ===== */
+const LIFE_AREAS_ADV=[
+  {id:'mindset',label:'العقلية',icon:'zap'}, {id:'productivity',label:'الإنتاجية',icon:'stopwatch'}, {id:'relationships',label:'العلاقات',icon:'flower'}, {id:'health',label:'الصحة والطاقة',icon:'droplet'},
+  {id:'wellbeing',label:'الرفاه والهدوء',icon:'bubbles'}, {id:'career',label:'المهنة',icon:'flag'}, {id:'finance',label:'المال',icon:'trending'}, {id:'learning',label:'التعلم',icon:'book-open'}
+];
+const ADVICE_LIBRARY=[
+  {cat:'العقلية',title:'تحسن 1%',body:'لا تحاول تغيير كل شيء دفعة واحدة. اختر تحسينًا صغيرًا يمكن تكراره يوميًا.',action:'اكتب خطوة واحدة أصغر من المعتاد ونفذها اليوم.'},
+  {cat:'العقلية',title:'هوية قبل النتيجة',body:'العادات تثبت أكثر عندما تربطها بصورة الشخص الذي تريد أن تكونه.',action:'اكتب: أنا شخص يهتم بـ... ثم اختر فعلًا صغيرًا يثبت ذلك.'},
+  {cat:'العقلية',title:'عقلية النمو',body:'التعثر ليس دليل فشل، بل معلومة عن الطريقة التي تحتاج تعديلًا.',action:'اكتب شيئًا تعثرت فيه وما التعديل الصغير القادم.'},
+  {cat:'العقلية',title:'تخفيف جلد الذات',body:'القسوة قد توقف المحاولة، بينما اللطف يساعدك على العودة.',action:'اكتب جملة تشجيع كما لو كنت تنصح صديقًا.'},
+  {cat:'العقلية',title:'سؤال السيطرة',body:'ركّز على ما تستطيع التحكم به بدل ما يستهلكك بلا نتيجة.',action:'قسّم قلقك إلى: تحت سيطرتي / خارج سيطرتي.'},
+  {cat:'الإنتاجية',title:'العمل العميق',body:'أفضل جلسة تركيز هي مهمة واحدة، وقت واضح، ومشتتات خارج المكان.',action:'ابدأ جلسة 25 دقيقة وضع الهاتف بعيدًا.'},
+  {cat:'الإنتاجية',title:'التقاط كل شيء',body:'عقلك ليس مكانًا مثاليًا لحفظ المهام. اكتب ما يدور في بالك.',action:'اكتب كل المهام العالقة ثم اختر أهم 3 فقط.'},
+  {cat:'الإنتاجية',title:'الأهم لا الأكثر',body:'كثرة المهام قد تخفي المهمة الأساسية. ابحث عن الشيء الذي يحرّك الباقي.',action:'اسأل: ما مهمة اليوم التي تجعل باقي اليوم أسهل؟'},
+  {cat:'الإنتاجية',title:'قاعدة الدقيقتين',body:'إذا كانت البداية صعبة، اختصرها إلى دقيقتين فقط.',action:'نفذ أول دقيقتين من مهمة مؤجلة.'},
+  {cat:'الإنتاجية',title:'مراجعة نهاية اليوم',body:'التعلم من اليوم يحسّن الغد أكثر من التخطيط النظري.',action:'اكتب: ما نجح؟ ما الذي أعدله غدًا؟'},
+  {cat:'العلاقات',title:'استمع أولًا',body:'الفهم قبل الرد يقلل سوء التواصل ويزيد الثقة.',action:'في محادثة اليوم، اسأل سؤالًا قبل أن تقدم رأيك.'},
+  {cat:'العلاقات',title:'رصيد العلاقة',body:'الأفعال الصغيرة المتكررة تبني الثقة أكثر من وعود كبيرة.',action:'أرسل تقديرًا صادقًا لشخص واحد.'},
+  {cat:'العلاقات',title:'حدود صحية',body:'الحدود ليست قسوة، بل طريقة لحماية الطاقة والوضوح.',action:'حدد أمرًا واحدًا ستقول له لا هذا الأسبوع.'},
+  {cat:'العلاقات',title:'رسالة واضحة',body:'الكلام الغامض يخلق توقعات متضاربة.',action:'اكتب طلبك بصيغة: أحتاج... في وقت... لأن...'},
+  {cat:'العلاقات',title:'وقت بلا شاشة',body:'الانتباه الكامل رسالة اهتمام قوية.',action:'خصص 10 دقائق حديث بلا هاتف.'},
+  {cat:'الصحة والطاقة',title:'ابدأ بالماء',body:'الاهتمام بالطاقة يبدأ من أساسيات بسيطة ومتكررة.',action:'اشرب كوب ماء وسجله الآن.'},
+  {cat:'الصحة والطاقة',title:'حركة قصيرة',body:'الحركة الصغيرة تكسر الخمول وتعيد تنشيط الجسم.',action:'امشِ 5 دقائق أو تمدد دقيقة.'},
+  {cat:'الصحة والطاقة',title:'نوم أهدأ',body:'الروتين المسائي يقلل مقاومة النوم ويحسن الاستيقاظ.',action:'اختر عادة مسائية واحدة قبل النوم.'},
+  {cat:'الصحة والطاقة',title:'طاقة لا وقت فقط',body:'بعض المهام تحتاج أفضل طاقتك لا مجرد فراغ في الجدول.',action:'ضع أصعب مهمة في وقت طاقتك الأعلى.'},
+  {cat:'الصحة والطاقة',title:'تقليل الاحتكاك',body:'اجعل السلوك الصحي أسهل وصولًا والسلوك المشتت أصعب.',action:'ضع الماء أمامك وأبعد الهاتف عن يدك.'},
+  {cat:'الهدوء والرفاه',title:'تنفس قبل الرد',body:'فترة قصيرة بين المثير والاستجابة تمنحك اختيارًا أفضل.',action:'خذ 4 أنفاس بطيئة قبل الرد على موقف مزعج.'},
+  {cat:'الهدوء والرفاه',title:'امتنان محدد',body:'الامتنان الأقوى يكون واضحًا ومحددًا وليس عامًا.',action:'اكتب موقفًا واحدًا ممتنًا له اليوم.'},
+  {cat:'الهدوء والرفاه',title:'تسمية الشعور',body:'تسمية ما تشعر به تقلل التشويش وتساعد على التنظيم.',action:'اكتب: أشعر بـ... وأحتاج إلى...'},
+  {cat:'الهدوء والرفاه',title:'راحة مقصودة',body:'الراحة التي تختارها بوعي أفضل من الهروب العشوائي.',action:'حدد 10 دقائق راحة دون شاشة.'},
+  {cat:'الهدوء والرفاه',title:'مساحة نظيفة',body:'ترتيب مساحة صغيرة يقلل الضجيج البصري.',action:'رتب زاوية واحدة لمدة 3 دقائق.'},
+  {cat:'التعلم',title:'قراءة تطبيقية',body:'الفائدة ليست في عدد الصفحات بل في التطبيق.',action:'بعد صفحة واحدة، اكتب فعلًا واحدًا ستجربه.'},
+  {cat:'التعلم',title:'تعليم ما تعلمت',body:'شرح الفكرة يثبتها ويكشف الفجوات.',action:'اكتب الفكرة كأنك تشرحها لشخص مبتدئ.'},
+  {cat:'التعلم',title:'مراجعة أسبوعية',body:'المعرفة تتحول إلى نمو عندما تراجع النمط المتكرر.',action:'اكتب درس الأسبوع في جملة واحدة.'},
+  {cat:'المال',title:'قرار شراء واعٍ',body:'الوعي المالي يبدأ بسؤال بسيط قبل الشراء.',action:'اسأل: هل هذا يخدم قيمة أو هدفًا واضحًا؟'},
+  {cat:'المال',title:'خطوة مالية صغيرة',body:'خطوة صغيرة مستمرة أفضل من خطة معقدة لا تبدأ.',action:'سجل مصروفًا واحدًا اليوم.'}
+];
+const PROGRAMS_ADV=[
+  {id:'habits14',title:'إتقان بناء العادات',source:'مستوحى من العادات الذرية والعادات الصغيرة',days:[
+    ['هوية العادة','اليوم اختر هوية صغيرة: أنا شخص يعتني بصحته أو تركيزه. الهوية تجعل السلوك أكثر ثباتًا من الحماس المؤقت.','اكتب جملة هوية واحدة ونفذ عادة لمدة دقيقتين.'],
+    ['المحفز الواضح','العادة تحتاج إشارة واضحة تبدأها. عندما نربط العادة بوقت أو مكان، نقلل الاعتماد على الذاكرة.','اكتب: بعد أن... سوف... لمدة دقيقتين.'],
+    ['تصغير البداية','البداية الصغيرة تزيل مقاومة التنفيذ. الهدف اليوم هو عدم كسر السلسلة لا تحقيق الكمال.','نفذ أصغر نسخة من العادة.'],
+    ['تصميم البيئة','بيئتك إما تذكرك بعادتك أو تخفيها. اجعل السلوك الجيد مرئيًا.','ضع أداة العادة في مكان ظاهر.'],
+    ['المكافأة الفورية','العقل يحب المكافآت القريبة. اربط العادة بإشارة إنجاز لطيفة.','بعد العادة قل: تم، وسجلها في التطبيق.'],
+    ['تقليل الاحتكاك','كل خطوة إضافية تقلل احتمال التنفيذ. اجعل الطريق إلى العادة قصيرًا.','احذف عائقًا واحدًا من طريق العادة.'],
+    ['مراجعة أسبوعية','التحسن يحتاج مراجعة لا جلد ذات. راقب ما نجح وما لم ينجح.','اكتب: متى نجحت العادة؟ ولماذا؟'],
+    ['استعادة السلسلة','الفشل يومًا واحدًا طبيعي. المهم ألا يتحول إلى يومين.','إذا فاتتك عادة، خطط لأول فرصة للعودة.'],
+    ['عادة بديلة','كسر عادة سيئة يحتاج بديلًا يلبي نفس الحاجة.','اكتب عادة سيئة وبديلًا صغيرًا لها.'],
+    ['تجميع العادات','اربط عادة جديدة بعادة راسخة. هذا يزيد احتمال التذكر.','اختر عادة موجودة واجعل الجديدة بعدها مباشرة.'],
+    ['قياس بسيط','لا تبالغ في القياس. يكفي تم أو لم يتم في البداية.','سجل عادة واحدة فقط اليوم.'],
+    ['رفع المستوى 1%','بعد الثبات، ارفع الصعوبة قليلًا. الزيادة الصغيرة تمنع الانقطاع.','زد العادة دقيقة واحدة أو تكرارًا واحدًا.'],
+    ['مشاركة الالتزام','الدعم الاجتماعي يزيد فرصة الاستمرار.','أخبر شخصًا بعادة تعمل عليها.'],
+    ['خطة الاستمرار','البرنامج ينتهي، لكن نظامك يبدأ. اختر نسخة مستدامة.','اكتب خطة 7 أيام للعادات.' ]]
+  },
+  {id:'deep14',title:'التركيز والعمل العميق',source:'مستوحى من العمل العميق وGTD والأساسيات',days:[
+    ['تفريغ الذهن','الذهن المزدحم يقلل التركيز. اكتب كل المهام قبل اختيار المهمة الأهم.','اكتب كل ما يشغلك ثم اختر مهمة واحدة.'],
+    ['جلسة واحدة','التركيز يبدأ بمهمة واحدة ووقت محدد. لا تبدأ أكثر من مسار.','ابدأ جلسة تركيز 15 دقيقة.'],
+    ['إزالة المشتتات','المشتت القريب أقوى من الإرادة. غيّر البيئة قبل الجلسة.','أبعد الهاتف أو أغلق إشعارًا.'],
+    ['تعريف النجاح','المهمة الغامضة لا تنتهي. حدد مخرجًا واضحًا للجلسة.','اكتب: تنجح الجلسة إذا أنجزت...'],
+    ['قاعدة الأهم','ليست كل المهام متساوية. ابدأ بالذي يحرك الباقي.','اختر مهمة واحدة من مصفوفة الأولويات.'],
+    ['الراحة الذكية','الفواصل ليست ضياعًا بل تجديد للانتباه.','خذ 5 دقائق راحة بلا شاشة.'],
+    ['مراجعة التركيز','راقب ما قطع تركيزك لتصمم حلًا.','اكتب أكبر مشتت اليوم وحلًا واحدًا له.'],
+    ['طاقة اليوم','رتب المهمة الصعبة في وقت طاقتك الأفضل.','حدد أفضل ساعة تركيز لديك.'],
+    ['قائمة انتظار','لا تقطع الجلسة بفكرة جديدة. ضعها في قائمة انتظار.','أثناء التركيز اكتب المشتتات في ورقة.'],
+    ['لا للزائد','الأساسيات تعني حذف الجيد لحماية المهم.','احذف مهمة غير ضرورية اليوم.'],
+    ['جلسة أطول','بعد ثبات الجلسات القصيرة، زد الوقت قليلًا.','جرب 25 دقيقة تركيز.'],
+    ['إغلاق الحلقات','المهام المفتوحة تستهلك الذاكرة. أغلق واحدة بوضوح.','أنه مهمة صغيرة عالقة.'],
+    ['نتيجة لا نشاط','قيّم النتيجة لا الانشغال.','اكتب ما خرجت به من جلسة اليوم.'],
+    ['نظام الأسبوع','اجعل التركيز موعدًا متكررًا لا قرارًا يوميًا.','حدد 3 مواعيد تركيز للأسبوع القادم.' ]]
+  }
+];
+function renderOnboarding(){
+  const saved=getData(K.ONBOARDING,{focus:[],goal:''});
+  const grid=document.getElementById('onboardingFocusGrid');
+  grid.innerHTML=LIFE_AREAS_ADV.map(a=>`<div class="focus-chip ${saved.focus.includes(a.id)?'active':''}" onclick="toggleOnboardingFocus('${a.id}')">${ic(a.icon,'icon-sm')} ${a.label}</div>`).join('');
+  document.getElementById('onboardingGoal').value=saved.goal||'';
+}
+function toggleOnboardingFocus(id){ const saved=getData(K.ONBOARDING,{focus:[],goal:''}); saved.focus=saved.focus.includes(id)?saved.focus.filter(x=>x!==id):[...saved.focus,id]; setData(K.ONBOARDING,saved); renderOnboarding(); }
+function saveOnboarding(){ const saved=getData(K.ONBOARDING,{focus:[],goal:''}); saved.goal=document.getElementById('onboardingGoal').value.trim(); saved.done=true; setData(K.ONBOARDING,saved); reward(20); showToast('تم حفظ البداية (+20)'); }
+function renderHabitBuilder(){
+  const list=getData(K.CUSTOM_HABITS,[]);
+  const wrap=document.getElementById('customHabitsList');
+  wrap.innerHTML=list.length?list.map(h=>`<div class="custom-habit-card"><h4>${ic('check-circle','icon-sm')} ${h.name}</h4><p class="muted">${h.category||'بدون تصنيف'}</p><div class="habit-loop"><div class="loop-box"><b>المحفز</b><span>${h.cue||'غير محدد'}</span></div><div class="loop-box"><b>الفعل</b><span>${h.name}</span></div><div class="loop-box"><b>المكافأة</b><span>${h.reward||'علامة إنجاز'}</span></div></div><div class="custom-habit-row"><button class="btn btn-primary" onclick="checkCustomHabit('${h.id}')">تسجيل اليوم</button><button class="btn btn-outline" onclick="deleteCustomHabit('${h.id}')">حذف</button></div><p class="muted" style="margin-top:8px;">إنجازات: ${Object.values(h.days||{}).filter(Boolean).length}</p></div>`).join(''):'<p class="muted">لا توجد عادات مخصصة بعد.</p>';
+}
+function addCustomHabit(){ const name=document.getElementById('customHabitName').value.trim(); if(!name){showToast('اكتب اسم العادة');return;} const list=getData(K.CUSTOM_HABITS,[]); list.unshift({id:'ch'+Date.now(),name,category:document.getElementById('customHabitCategory').value.trim(),cue:document.getElementById('customHabitCue').value.trim(),reward:document.getElementById('customHabitReward').value.trim(),days:{}}); setData(K.CUSTOM_HABITS,list); reward(10); ['customHabitName','customHabitCategory','customHabitCue','customHabitReward'].forEach(id=>document.getElementById(id).value=''); renderHabitBuilder(); }
+function checkCustomHabit(id){ const list=getData(K.CUSTOM_HABITS,[]); const h=list.find(x=>x.id===id); if(h){ const k=todayKey(); const was=!!h.days[k]; h.days[k]=!was; setData(K.CUSTOM_HABITS,list); if(!was) reward(6); } renderHabitBuilder(); }
+function deleteCustomHabit(id){ setData(K.CUSTOM_HABITS,getData(K.CUSTOM_HABITS,[]).filter(h=>h.id!==id)); renderHabitBuilder(); }
+function renderLifeAreas(){ const saved=getData(K.LIFE_AREAS,{}); const grid=document.getElementById('lifeAreasGrid'); grid.innerHTML=LIFE_AREAS_ADV.map(a=>{const v=saved[a.id]||5; return `<div class="area-card"><h4>${ic(a.icon,'icon-sm')} ${a.label}</h4><div class="area-score" id="area-val-${a.id}">${v}</div><input type="range" min="1" max="10" value="${v}" id="area-${a.id}" oninput="document.getElementById('area-val-${a.id}').textContent=this.value"></div>`}).join(''); }
+function saveLifeAreas(){ const values={}; LIFE_AREAS_ADV.forEach(a=>values[a.id]=Number(document.getElementById('area-'+a.id).value)); setData(K.LIFE_AREAS,values); reward(15); showToast('تم حفظ تقييم المجالات (+15)'); }
+let currentTipCategory='الكل';
+function renderTipsLibrary(){ const cats=['الكل',...new Set(ADVICE_LIBRARY.map(t=>t.cat))]; document.getElementById('tipsFilterRow').innerHTML=cats.map(c=>`<button class="btn-chip ${c===currentTipCategory?'active':''}" onclick="currentTipCategory='${c}';renderTipsLibrary()">${c}</button>`).join(''); const list=currentTipCategory==='الكل'?ADVICE_LIBRARY:ADVICE_LIBRARY.filter(t=>t.cat===currentTipCategory); document.getElementById('tipsLibraryList').innerHTML=list.map(t=>`<div class="tip-lib-card"><h4>${ic('sparkle','icon-sm')} ${t.title}</h4><p>${t.body}</p><div class="action-step"><b>خطوة عملية:</b> ${t.action}</div></div>`).join(''); }
+function renderPrograms(){ const progress=getData(K.PROGRAMS,{}); document.getElementById('programCards').innerHTML=PROGRAMS_ADV.map(p=>{const done=(progress[p.id]||{}).done||{}; const count=Object.keys(done).filter(k=>done[k]).length; return `<div class="program-card" onclick="openProgram('${p.id}')"><h4>${ic('calendar','icon-sm')} ${p.title}</h4><p class="muted">${p.source}</p><div class="progress-track"><div class="progress-fill" style="width:${count/14*100}%"></div></div><p class="muted" style="margin-top:6px;">${count}/14 يوم</p></div>`}).join(''); if(!document.getElementById('programDetails').innerHTML) openProgram(PROGRAMS_ADV[0].id); }
+function openProgram(id){ const p=PROGRAMS_ADV.find(x=>x.id===id); const progress=getData(K.PROGRAMS,{}); if(!progress[id]) progress[id]={done:{},notes:{}}; const done=progress[id].done; const count=Object.values(done).filter(Boolean).length; document.getElementById('programDetails').innerHTML=`<div class="course-progress-banner"><div class="circle">${count}/14</div><div><h3 style="margin:0;">${p.title}</h3><p style="margin:3px 0 0;color:rgba(255,255,255,.78);">${p.source}</p></div></div>`+p.days.map((d,i)=>{const day=i+1; return `<div class="program-day ${done[day]?'done':''}"><div class="day-num">${day}</div><div class="text"><b>${d[0]}</b><p>${d[1]}</p><div class="action-step"><b>تمرين:</b> ${d[2]}</div><button class="btn ${done[day]?'btn-outline':'btn-primary'} btn-sm" style="margin-top:8px;" onclick="toggleProgramDay('${id}',${day})">${done[day]?'إلغاء الإنجاز':'تم إنجاز اليوم'}</button></div></div>`}).join(''); }
+function toggleProgramDay(id,day){ const progress=getData(K.PROGRAMS,{}); if(!progress[id]) progress[id]={done:{},notes:{}}; const was=!!progress[id].done[day]; progress[id].done[day]=!was; setData(K.PROGRAMS,progress); if(!was) reward(12); openProgram(id); renderPrograms(); }
 
 /* ===== Init ===== */
 (function init(){
