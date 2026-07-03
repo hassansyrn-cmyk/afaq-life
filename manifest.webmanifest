@@ -1,0 +1,26 @@
+{
+  "name": "آفاق | تطوير الحياة",
+  "short_name": "آفاق",
+  "description": "تطبيق يومي لتطوير نمط الحياة وبناء العادات والتأمل الذاتي.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "dir": "rtl",
+  "lang": "ar",
+  "background_color": "#F7F1E6",
+  "theme_color": "#425F58",
+  "icons": [
+    {
+      "src": "assets/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
