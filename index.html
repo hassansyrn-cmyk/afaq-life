@@ -514,6 +514,7 @@
     <div class="ring-wrap"><div class="ring-outer" id="pomoRing" style="--deg:0;"><div class="ring-inner"><div class="time" id="pomoTime">25:00</div><div class="mode" id="pomoMode">تركيز</div></div></div></div>
     <div class="btn-row"><button class="btn btn-primary" id="pomoStartBtn" onclick="togglePomo()">ابدأ</button><button class="btn btn-outline" onclick="resetPomo()">إعادة ضبط</button></div>
     <p class="muted" style="text-align:center;" id="pomoSessionsText">جلسات اليوم: 0</p>
+    <p class="muted" id="sound-note-focus" style="text-align:center; margin-top:8px;">عند انتهاء جلسة التركيز سيصدر تنبيه صوتي خفيف واهتزاز إذا كان الجهاز يدعم ذلك.</p>
   </div>
 
   <!-- ===== WATER ===== -->
@@ -992,6 +993,43 @@ function drawRadar(values){
   ctx.strokeStyle=primaryColor; ctx.lineWidth=2.5; ctx.stroke();
 }
 
+
+/* ===== Focus Timer Alert: generated sound + vibration, no external file ===== */
+function prepareFocusAlert(){
+  try{
+    const AudioCtor = window.AudioContext || window.webkitAudioContext;
+    if(!AudioCtor) return;
+    if(!window.afaqFocusAudioCtx){ window.afaqFocusAudioCtx = new AudioCtor(); }
+    if(window.afaqFocusAudioCtx.state === 'suspended') window.afaqFocusAudioCtx.resume();
+  }catch(e){}
+}
+function playFocusFinishAlert(){
+  try{
+    if(navigator.vibrate){ navigator.vibrate([280,120,280,120,420]); }
+    const AudioCtor = window.AudioContext || window.webkitAudioContext;
+    if(!AudioCtor) return;
+    const ctx = window.afaqFocusAudioCtx || new AudioCtor();
+    window.afaqFocusAudioCtx = ctx;
+    if(ctx.state === 'suspended') ctx.resume();
+    const now = ctx.currentTime + 0.02;
+    const tones = [784, 988, 784, 1175];
+    tones.forEach((freq, index)=>{
+      const start = now + index * 0.24;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(freq, start);
+      gain.gain.setValueAtTime(0.0001, start);
+      gain.gain.exponentialRampToValueAtTime(0.17, start + 0.03);
+      gain.gain.exponentialRampToValueAtTime(0.0001, start + 0.20);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(start);
+      osc.stop(start + 0.22);
+    });
+  }catch(e){}
+}
+
 /* ===== Pomodoro ===== */
 let pomoTotal=25*60, pomoRemaining=25*60, pomoRunning=false, pomoInterval=null, pomoMode='focus';
 function pomoTodayData(){ let d=getData(K.POMODORO,{date:todayKey(),sessions:0,minutes:0}); if(d.date!==todayKey()){ d={date:todayKey(),sessions:0,minutes:0}; setData(K.POMODORO,d); } return d; }
@@ -1011,14 +1049,14 @@ function updatePomoUI(){
 }
 function togglePomo(){
   if(pomoRunning){ pomoRunning=false; clearInterval(pomoInterval); document.getElementById('pomoStartBtn').textContent='استئناف'; return; }
-  pomoRunning=true; document.getElementById('pomoStartBtn').textContent='إيقاف مؤقت';
+  pomoRunning=true; prepareFocusAlert(); document.getElementById('pomoStartBtn').textContent='إيقاف مؤقت';
   pomoInterval=setInterval(()=>{
     pomoRemaining--;
     if(pomoRemaining<=0){
       if(pomoMode==='focus'){
         const d=pomoTodayData(); d.sessions++; d.minutes=(d.minutes||0)+Math.round(pomoTotal/60); setData(K.POMODORO,d);
         document.getElementById('pomoSessionsText').textContent=`جلسات اليوم: ${d.sessions}`;
-        reward(15); showToast('أحسنت! خذ استراحة 5 دقائق (+15)');
+        reward(15); playFocusFinishAlert(); showToast('أحسنت! خذ استراحة 5 دقائق (+15)');
         pomoMode='break'; pomoRemaining=5*60;
       } else {
         showToast('انتهت الراحة، جاهز لجلسة جديدة؟');
