@@ -1,161 +1,36 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta name="theme-color" content="#4A6760">
-  <meta name="description" content="آفاق | تطوير الحياة - تطبيق لتطوير الذات وبناء العادات اليومية">
-  <meta name="keywords" content="تطوير الذات، عادات، تأمل، تركيز، إنتاجية">
-  
-  <!-- Mobile Web App Capabilities -->
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="آفاق">
-  
-  <!-- Icons -->
-  <link rel="icon" type="image/png" href="assets/icons/icon-192.png">
-  <link rel="apple-touch-icon" href="assets/icons/icon-192.png">
-  <link rel="manifest" href="manifest.json">
-  
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800;900&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
-  
-  <!-- Styles -->
-  <link rel="stylesheet" href="src/styles/main.css">
-  
-  <title>آفاق | تطوير الحياة</title>
-  
-  <style>
-    /* Icon font using emoji (fallback) */
-    [data-icon]::before {
-      content: attr(data-icon);
-      margin-right: 8px;
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#365E56">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>آفاق | تطوير الحياة</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="assets/icon-192.png">
+<link rel="apple-touch-icon" href="assets/icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800;900&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <!-- Background Decorative Elements -->
-  <div class="bg-orb orb-a"></div>
-  <div class="bg-orb orb-b"></div>
-
-  <!-- Main App Container -->
-  <div class="shell">
-    <!-- Top Navigation Bar -->
-    <header class="topbar">
-      <button id="backBtn" class="icon-btn hidden" aria-label="رجوع">←</button>
-      
-      <div class="brand">
-        <div class="mark">🧭</div>
-        <div>
-          <strong id="topTitle">آفاق</strong>
-          <span>تطوير الحياة</span>
-        </div>
-      </div>
-      
-      <div class="top-actions">
-        <button id="searchBtn" class="icon-btn" aria-label="بحث">🔍</button>
-        <button id="themeBtn" class="icon-btn" aria-label="تغيير الثيم">☀️</button>
-      </div>
-    </header>
-
-    <!-- Main Content Area -->
-    <main>
-      <!-- Home Screen -->
-      <section id="home" class="screen active"></section>
-      
-      <!-- Daily Screen -->
-      <section id="daily" class="screen"></section>
-      
-      <!-- Tools Screen -->
-      <section id="tools" class="screen"></section>
-      
-      <!-- Progress Screen -->
-      <section id="progress" class="screen"></section>
-      
-      <!-- Settings Screen -->
-      <section id="settings" class="screen"></section>
-      
-      <!-- Feature Screens -->
-      <section id="tips" class="screen"></section>
-      <section id="mood" class="screen"></section>
-      <section id="breath" class="screen"></section>
-      <section id="reflect" class="screen"></section>
-      <section id="gratitude" class="screen"></section>
-      <section id="challenge" class="screen"></section>
-      <section id="habits" class="screen"></section>
-      <section id="journal" class="screen"></section>
-      <section id="achievements" class="screen"></section>
-    </main>
-  </div>
-
-  <!-- Bottom Navigation -->
-  <nav class="bottom-nav">
-    <button class="nav active" data-go="home" aria-label="الرئيسية">
-      <span>🏠</span>
-      <small>الرئيسية</small>
-    </button>
-    <button class="nav" data-go="daily" aria-label="اليوم">
-      <span>✨</span>
-      <small>اليوم</small>
-    </button>
-    <button class="nav" data-go="tools" aria-label="الأدوات">
-      <span>🛠️</span>
-      <small>الأدوات</small>
-    </button>
-    <button class="nav" data-go="progress" aria-label="التقدم">
-      <span>📊</span>
-      <small>التقدم</small>
-    </button>
-    <button class="nav" data-go="settings" aria-label="الإعدادات">
-      <span>⚙️</span>
-      <small>الإعدادات</small>
-    </button>
-  </nav>
-
-  <!-- Search Overlay -->
-  <div id="searchOverlay" class="overlay">
-    <div class="search-box">
-      <div class="search-head">
-        <strong>بحث سريع</strong>
-        <button id="closeSearch" class="btn-small">إغلاق</button>
-      </div>
-      <input 
-        id="searchInput" 
-        type="text" 
-        placeholder="ابحث عن عادة، تركيز، امتنان..."
-        autocomplete="off"
-      >
-      <div id="searchResults" class="search-results"></div>
-    </div>
-  </div>
-
-  <!-- Toast Notification -->
-  <div id="toast" class="toast"></div>
-
-  <!-- Scripts -->
-  <script type="module">
-    import { appContent } from './src/data/content.js';
-    import { storage, StorageKeys } from './src/utils/storage.js';
-    
-    // Make modules available globally
-    window.appContent = appContent;
-    window.storage = storage;
-    window.StorageKeys = StorageKeys;
-  </script>
-  <script type="module" src="src/app.js"></script>
-
-  <!-- Service Worker Registration -->
-  <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js').catch(err => {
-          console.log('Service Worker registration failed:', err);
-        });
-      });
-    }
-  </script>
-</body>
-</html>
+<div class="bg-orb orb-a"></div><div class="bg-orb orb-b"></div>
+<div id="app" class="shell">
+<header class="topbar">
+<button id="backBtn" class="icon-btn hidden" aria-label="رجوع"></button>
+<div class="brand"><div class="mark" data-icon="compass"></div><div><strong id="topTitle">آفاق</strong><span>تطوير الحياة</span></div></div>
+<div class="top-actions"><button id="searchBtn" class="icon-btn" aria-label="بحث"></button><button id="themeBtn" class="icon-btn" aria-label="تغيير الثيم"></button></div>
+</header>
+<main>
+<section id="home" class="screen active"></section><section id="daily" class="screen"></section><section id="tools" class="screen"></section><section id="progress" class="screen"></section><section id="settings" class="screen"></section>
+<section id="tips" class="screen"></section><section id="mood" class="screen"></section><section id="breath" class="screen"></section><section id="reflect" class="screen"></section><section id="gratitude" class="screen"></section><section id="challenge" class="screen"></section><section id="wheel" class="screen"></section><section id="focus" class="screen"></section><section id="water" class="screen"></section><section id="habits" class="screen"></section><section id="matrix" class="screen"></section><section id="routine" class="screen"></section><section id="journal" class="screen"></section><section id="goals" class="screen"></section><section id="energy" class="screen"></section><section id="weekly" class="screen"></section><section id="planner" class="screen"></section><section id="values" class="screen"></section><section id="decision" class="screen"></section><section id="reading" class="screen"></section><section id="insights" class="screen"></section><section id="month" class="screen"></section><section id="library" class="screen"></section><section id="backup" class="screen"></section>
+<section id="achievements" class="screen"></section>
+</main>
+</div>
+<nav class="bottom-nav"><button data-go="home" class="nav active"><span data-icon="home"></span><small>الرئيسية</small></button><button data-go="daily" class="nav"><span data-icon="sparkles"></span><small>اليوم</small></button><button data-go="tools" class="nav"><span data-icon="grid"></span><small>الأدوات</small></button><button data-go="progress" class="nav"><span data-icon="chart"></span><small>التقدم</small></button><button data-go="settings" class="nav"><span data-icon="settings"></span><small>إعدادات</small></button></nav>
+<div id="searchOverlay" class="overlay"><div class="search-box"><div class="search-head"><b>بحث سريع</b><button id="closeSearch" class="mini">إغلاق</button></div><input id="searchInput" placeholder="ابحث عن عادة، تركيز، امتنان..."><div id="searchResults" class="search-results"></div></div></div>
+<div id="toast" class="toast"></div>
+<script src="app.js"></script>
+</body></html>
